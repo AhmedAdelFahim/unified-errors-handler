@@ -7,7 +7,7 @@ import { NotNullViolationException } from './exceptions/not-null-violation-excep
 export default function objectionDBExceptionMapper(error: unknown): BaseException | null {
   const err = wrapError(error as Error);
   if (err instanceof UniqueViolationError) {
-    const columns = err.columns;
+    const columns = err?.columns || [];
     return new UniqueViolationException(columns);
   }
 

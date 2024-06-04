@@ -1,20 +1,12 @@
 import assert from 'assert';
-import { PostgresDatabase } from './helpers/database/postgres-database';
-import { UserRepository } from './helpers/modules/postgres/objectionjs/users/user.repository';
 import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { PetRepository } from './helpers/modules/postgres/objectionjs/pets/pet.repository';
+import User from './helpers/modules/postgres/sequelize/users/user.model';
+import Pet from './helpers/modules/postgres/sequelize/pets/pet.model';
+import { MYSQLDatabase } from './helpers/database/mysql-database';
 
-describe('Postgres ObjectionJS Testing', function () {
-  let userRepo: UserRepository;
-  let petRepo: PetRepository;
-
-  before(async function () {
-    userRepo = new UserRepository(await PostgresDatabase.getInstance());
-    petRepo = new PetRepository(await PostgresDatabase.getInstance());
-  });
-
+describe('MYSQL Sequelize Testing', function () {
   beforeEach(async function () {
-    await PostgresDatabase.seed();
+    await MYSQLDatabase.seed();
   });
 
   it('Should violate Unique Constraint.', async function () {
@@ -26,7 +18,7 @@ describe('Postgres ObjectionJS Testing', function () {
       age: 28,
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await User.create(userToBeInserted);
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
@@ -37,7 +29,7 @@ describe('Postgres ObjectionJS Testing', function () {
     }
   });
 
-  it('Should violate Unique Constraint (multi columns).', async function () {
+  it('Should violate Unique Constraint  (multi columns).', async function () {
     const userToBeInserted = {
       name: 'Osama',
       fname: 'Ahmed',
@@ -46,7 +38,7 @@ describe('Postgres ObjectionJS Testing', function () {
       age: 28,
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await User.create(userToBeInserted);
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
@@ -69,7 +61,7 @@ describe('Postgres ObjectionJS Testing', function () {
       status: 'Active',
     };
     try {
-      await userRepo.create(user);
+      await User.create(user);
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
@@ -93,7 +85,7 @@ describe('Postgres ObjectionJS Testing', function () {
       type: 'Cow',
     };
     try {
-      await petRepo.create(pet);
+      await Pet.create(pet);
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
@@ -113,7 +105,11 @@ describe('Postgres ObjectionJS Testing', function () {
 
   it('Should violate Foreign Constraint (delete row has reference in another table).', async function () {
     try {
-      await userRepo.delete({ name: 'Ahmed' });
+      await User.destroy({
+        where: {
+          name: 'Ahmed',
+        },
+      });
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,

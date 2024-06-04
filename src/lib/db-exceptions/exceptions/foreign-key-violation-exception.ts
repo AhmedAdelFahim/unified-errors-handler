@@ -1,10 +1,18 @@
 import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
 
-function extractDetails(constraint: string, nativeError: any) {
-  const notExistInAnotherTableReg = new RegExp(/^Key \(.+\)=\(.+\) is not present in table ".+"\.$/);
+function isReferenceError(nativeError: any) {
   const stillReferencedInAnotherTableReg = new RegExp(/Key \(.+\)=\(.+\) is still referenced from table ".+"\./);
-  if (notExistInAnotherTableReg.test(nativeError?.detail)) {
+  return stillReferencedInAnotherTableReg.test(nativeError?.detail) || nativeError?.errno == 1451;
+}
+
+function isHasNoReferenceError(nativeError: any) {
+  const notExistInAnotherTableReg = new RegExp(/^Key \(.+\)=\(.+\) is not present in table ".+"\.$/);
+  return notExistInAnotherTableReg.test(nativeError?.detail) || nativeError?.errno == 1452;
+}
+
+function extractDetails(constraint: string, nativeError: any) {
+  if (isHasNoReferenceError(nativeError)) {
     return [
       {
         code: 'INVALID_DATA',
@@ -15,7 +23,7 @@ function extractDetails(constraint: string, nativeError: any) {
         },
       },
     ];
-  } else if (stillReferencedInAnotherTableReg.test(nativeError?.detail)) {
+  } else if (isReferenceError(nativeError)) {
     return [
       {
         code: 'DATA_HAS_REFERENCE',

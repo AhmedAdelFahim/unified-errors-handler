@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import { TABLES } from '../../../database/table.constant';
-import { Database } from '../../../database';
+import { TABLES } from '../../../../database/table.constant';
+import { MYSQLDatabase } from '../../../../database/mysql-database';
 
-const Pet = Database.getSequelizeInstance().define(
+const Pet = MYSQLDatabase.getSequelizeInstance().define(
   TABLES.PET,
   {
     name: DataTypes.STRING,

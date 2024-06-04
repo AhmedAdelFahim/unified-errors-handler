@@ -5,7 +5,6 @@ import { ForeignKeyViolationException } from './exceptions/foreign-key-violation
 import objectionDBExceptionMapper from './objectionjs-mapper';
 
 export default function sequelizeDBExceptionMapper(err: unknown): BaseException | null {
-  // console.log(err);
   if (err instanceof UniqueConstraintError) {
     const columns = Object.keys(err.fields);
     return new UniqueViolationException(columns);

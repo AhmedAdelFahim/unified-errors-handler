@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  mysql-db:
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_USER=r00t
+      - MYSQL_PASSWORD=r00t
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=unit_test
+    ports:
+      - "3308:3306"
+    volumes: 
+      - mysql-db:/var/lib/mysql
+
+  postgres-db:
+    image: postgres:14.7
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgress
+      - POSTGRES_DB=unit_test
+    ports:
+      - '5438:5432'
+    volumes: 
+      - postgres-db:/var/lib/postgresql/data
+volumes:
+  mysql-db:
+    driver: local
+  postgres-db:
+    driver: local

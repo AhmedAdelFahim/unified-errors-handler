@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import { TABLES } from '../../../database/table.constant';
-import { Database } from '../../../database';
+import { TABLES } from '../../../../database/table.constant';
+import { PostgresDatabase } from '../../../../database/postgres-database';
 
-const User = Database.getSequelizeInstance().define(
+const User = PostgresDatabase.getSequelizeInstance().define(
   TABLES.USER,
   {
     name: DataTypes.STRING,

@@ -1,7 +1,11 @@
-import { Database } from './database';
+import { MYSQLDatabase } from './database/mysql-database';
+import { PostgresDatabase } from './database/postgres-database';
 
 before(function (done) {
-  Database.init()
+  PostgresDatabase.init()
+    .then(() => {
+      return MYSQLDatabase.init();
+    })
     .then(() => {
       done();
     })
@@ -11,7 +15,10 @@ before(function (done) {
 });
 
 after(function (done) {
-  Database.teardown()
+  PostgresDatabase.teardown()
+    .then(() => {
+      return MYSQLDatabase.teardown();
+    })
     .then(() => {
       done();
     })

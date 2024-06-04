@@ -8,31 +8,33 @@ import { users } from './data/users.json';
 import { pets } from './data/pets.json';
 
 dotenv.config();
-export class Database {
+export class MYSQLDatabase {
   private static _knexInstance: KnexType | null = null;
   private static _sequelizeInstance: Sequelize | null = null;
-  private static postgresURL: string = process?.env?.DB_URL || '';
+  private static dbHost: string = process?.env?.MYSQL_HOST || '';
+  private static dbPort: string = process?.env?.MYSQL_PORT || '';
+  private static dbPassword: string = process?.env?.MYSQL_PASSWORD || '';
+  private static dbName: string = process?.env?.MYSQL_DB || '';
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   static async getInstance() {
     if (R.isNil(this._knexInstance)) {
       this._knexInstance = Knex({
-        client: 'pg',
-        connection: this.postgresURL,
+        client: 'mysql2',
+        connection: 'mysql://r00t:r00t@0.0.0.0:3308/unit_test',
       });
       Model.knex(this._knexInstance);
       return this._knexInstance;
     } else {
+      Model.knex(this._knexInstance);
       return this._knexInstance;
     }
   }
 
   static getSequelizeInstance() {
     if (R.isNil(this._sequelizeInstance)) {
-      this._sequelizeInstance = new Sequelize(this.postgresURL, {
-        logging: false,
-      });
+      this._sequelizeInstance = new Sequelize('mysql://r00t:r00t@0.0.0.0:3308/unit_test');
       return this._sequelizeInstance;
     } else {
       return this._sequelizeInstance;
@@ -64,19 +66,27 @@ export class Database {
       table.string('name');
       table.integer('age');
       table.string('type');
-      table.integer('user_id').references('id').inTable(TABLES.USER).onDelete('RESTRICT').onUpdate('CASCADE');
+      table
+        .integer('user_id')
+        .unsigned()
+        .references('id')
+        .inTable(TABLES.USER)
+        .onDelete('RESTRICT')
+        .onUpdate('CASCADE');
     });
   }
 
   static async seed() {
     await (await this.getInstance())?.table(TABLES.PET)?.truncate();
-    await (await this.getInstance())?.raw(`TRUNCATE TABLE "${TABLES.USER}" CASCADE;`);
+    await (await this.getInstance())?.raw(`SET FOREIGN_KEY_CHECKS = 0; `);
+    await (await this.getInstance())?.raw(`TRUNCATE TABLE ${TABLES.USER};`);
+    await (await this.getInstance())?.raw(`SET FOREIGN_KEY_CHECKS = 1;`);
 
-    const userList = await (await this.getInstance())?.table(TABLES.USER)?.insert(users).returning('id');
+    const userList = await (await this.getInstance())?.table(TABLES.USER)?.insert(users);
     await (await this.getInstance())?.table(TABLES.PET)?.insert(
       pets.map((pet) => {
         const clonedPet = JSON.parse(JSON.stringify(pet));
-        clonedPet.user_id = userList[clonedPet.user_id - 1].id;
+        clonedPet.user_id = userList[clonedPet.user_id - 1];
         return clonedPet;
       }),
     );

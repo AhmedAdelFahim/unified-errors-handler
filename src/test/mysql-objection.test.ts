@@ -1,20 +1,20 @@
 import assert from 'assert';
-import { PostgresDatabase } from './helpers/database/postgres-database';
 import { UserRepository } from './helpers/modules/postgres/objectionjs/users/user.repository';
 import exceptionMapper from '../lib/exceptions/exception-mapper';
 import { PetRepository } from './helpers/modules/postgres/objectionjs/pets/pet.repository';
+import { MYSQLDatabase } from './helpers/database/mysql-database';
 
-describe('Postgres ObjectionJS Testing', function () {
+describe('MYSQL ObjectionJS Testing', function () {
   let userRepo: UserRepository;
   let petRepo: PetRepository;
 
   before(async function () {
-    userRepo = new UserRepository(await PostgresDatabase.getInstance());
-    petRepo = new PetRepository(await PostgresDatabase.getInstance());
+    userRepo = new UserRepository(await MYSQLDatabase.getInstance());
+    petRepo = new PetRepository(await MYSQLDatabase.getInstance());
   });
 
   beforeEach(async function () {
-    await PostgresDatabase.seed();
+    await MYSQLDatabase.seed();
   });
 
   it('Should violate Unique Constraint.', async function () {
@@ -31,9 +31,12 @@ describe('Postgres ObjectionJS Testing', function () {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
       }).serializeErrors();
-      assert.equal(mappedError?.[0]?.fields?.[0], 'name');
-      assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
-      assert.equal(mappedError?.[0]?.message, 'name already exist');
+      assert.deepEqual(mappedError, [
+        {
+          code: 'DATA_ALREADY_EXIST',
+          message: 'data already exist',
+        },
+      ]);
     }
   });
 
@@ -53,9 +56,8 @@ describe('Postgres ObjectionJS Testing', function () {
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
-          fields: ['fname', 'lname'],
           code: 'DATA_ALREADY_EXIST',
-          message: 'fname, lname already exist',
+          message: 'data already exist',
         },
       ]);
     }

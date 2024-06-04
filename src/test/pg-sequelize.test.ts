@@ -1,12 +1,12 @@
 import assert from 'assert';
-import { Database } from './helpers/database';
+import { PostgresDatabase } from './helpers/database/postgres-database';
 import exceptionMapper from '../lib/exceptions/exception-mapper';
-import User from './helpers/modules/sequelize/users/user.model';
-import Pet from './helpers/modules/sequelize/pets/pet.model';
+import User from './helpers/modules/postgres/sequelize/users/user.model';
+import Pet from './helpers/modules/postgres/sequelize/pets/pet.model';
 
 describe('Postgres Sequelize Testing', function () {
   beforeEach(async function () {
-    await Database.seed();
+    await PostgresDatabase.seed();
   });
 
   it('Should violate Unique Constraint.', async function () {
