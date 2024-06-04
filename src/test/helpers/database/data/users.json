@@ -1,0 +1,27 @@
+{
+    "users": [
+        {
+            "name": "Ahmed",
+            "fname": "Ahmed",
+            "lname": "Adel",
+            "status": "Active",
+            "age": 25,
+            "email": "ahmed@example.com"
+        },
+        {
+            "name": "Ali",
+            "fname": "Ali",
+            "lname": "Adel",
+            "status": "Active",
+            "age": 30
+        },
+        {
+            "name": "Adel",
+            "fname": "Fahim",
+            "lname": "Adel",
+            "status": "Active",
+            "age": 40,
+            "email": "adel@example.com"
+        }
+    ]
+}
