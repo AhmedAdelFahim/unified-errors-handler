@@ -15,6 +15,7 @@ export class MYSQLDatabase {
   private static dbPort: string = process?.env?.MYSQL_PORT || '';
   private static dbPassword: string = process?.env?.MYSQL_PASSWORD || '';
   private static dbName: string = process?.env?.MYSQL_DB || '';
+  private static MYSQL_DB_URL: string = process?.env?.MYSQL_DB_URL || '';
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
@@ -22,7 +23,7 @@ export class MYSQLDatabase {
     if (R.isNil(this._knexInstance)) {
       this._knexInstance = Knex({
         client: 'mysql2',
-        connection: 'mysql://r00t:r00t@0.0.0.0:3308/unit_test',
+        connection: this.MYSQL_DB_URL,
       });
       Model.knex(this._knexInstance);
       return this._knexInstance;
@@ -34,7 +35,7 @@ export class MYSQLDatabase {
 
   static getSequelizeInstance() {
     if (R.isNil(this._sequelizeInstance)) {
-      this._sequelizeInstance = new Sequelize('mysql://r00t:r00t@0.0.0.0:3308/unit_test');
+      this._sequelizeInstance = new Sequelize(this.MYSQL_DB_URL);
       return this._sequelizeInstance;
     } else {
       return this._sequelizeInstance;
