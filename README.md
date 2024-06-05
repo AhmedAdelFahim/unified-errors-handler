@@ -74,7 +74,24 @@ throw new UnauthorizedException({
   message: 'You are not authorized'
 });
 ```
-
+3. #### ForbiddenException
+* Status code - 403
+```javascript
+throw new ForbiddenException({
+  code: 'FORBIDDEN',
+  message: 'You have no access'
+});
+```
+4. #### NotFoundException
+* Status code - 404
+```javascript
+throw new NotFoundException([
+  {
+     code: 'USER_NOT_FOUND',
+     message: 'user not found',
+  },
+]);
+```
 
 ## Supported Database and ORMs
 1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
