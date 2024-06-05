@@ -1,6 +1,6 @@
 {
   "name": "unified-errors-handler",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Unified Errors Handler is error handler that unify error structure across application. it can unify database errors.",
   "main": "build/index.js",
   "files": [
