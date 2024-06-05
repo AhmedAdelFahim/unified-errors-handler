@@ -41,8 +41,10 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.14.0",
     "@types/ramda": "^0.30.0",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
+    "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.10.0",
@@ -55,6 +57,7 @@
     "pg": "^8.11.5",
     "prettier": "^2.8.3",
     "ramda": "^0.30.1",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
