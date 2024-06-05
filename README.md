@@ -57,13 +57,31 @@ const options = {
 app.use(expressExceptionHandler(options));
 ```
 
+## Unified Structure
+```javascript
+{
+   errors: [{
+      fields: ['name', 'password'],   // optional
+      code: 'YOUR_CODE',
+      message: 'your message'
+      details: {    // optional - more details about error
+        key: value 
+      }
+   }]
+}
+```
+
 ## Exceptions
 1. #### BadRequestException
 * Status code - 400  
 ```javascript
 throw new BadRequestException({
-  code: 'INVALID_PASSWORD',
+  fields: ['password'],        // optional
+  code: 'INVALID_PASSWORD',    // optional
   message: 'invalid password'
+  details: {                  // optional
+   // ... more details
+  }
 });
 ```
 2. #### UnauthorizedException
@@ -92,6 +110,61 @@ throw new NotFoundException([
   },
 ]);
 ```
+5. #### ServerException
+* Status code - 500
+```javascript
+throw new ServerException();
+```
+## Database Exceptions
+1. #### UniqueViolationException
+* Status code - 400  
+```javascript
+// output
+[
+  {
+    fields: ['name'],
+    code: 'DATA_ALREADY_EXIST',
+    message: 'name already exist',
+  },
+]
+```
+2. #### ForeignKeyViolationException
+* Status code - 400  
+```javascript
+// output
+// foreign key is not exist as primary key in another table
+// trying insert value with invalid foreign key
+[
+  code: 'INVALID_DATA',
+  message: 'Invalid data',
+  details: {
+    reason: 'violates foreign key constraint',
+    constraint: 'pet_user_id_foreign',
+  },
+]
+// foreign key has reference in another table 
+[
+  code: 'DATA_HAS_REFERENCE',
+  message: 'Data has reference',
+  details: {
+    reason: 'violates foreign key constraint',
+    constraint: 'pet_user_id_foreign',
+  },
+]
+```
+3. #### NotNullViolationException
+* Status code - 400  
+```javascript
+// output
+[
+  {
+    fields: ['age'],
+    code: 'INVALID_DATA',
+    message: 'age is invalid',
+    details: { reason: 'age must not be NULL' },
+  },
+]
+```
 
 ## Supported Database and ORMs
 1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
@@ -109,5 +182,5 @@ To run the test suite,
 $ npm install
 $ npm test
 ```
-## Support
+## Support and Suggestions
 Feel free to open issues on [github](https://github.com/AhmedAdelFahim/unified-errors-handler).
