@@ -1,5 +1,5 @@
 # Unified Errors Handler
- Unified Errors Handler is error handler that unify error structure across application. it can unify database errors.
+Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.
  ## Installation
 
 ```bash
