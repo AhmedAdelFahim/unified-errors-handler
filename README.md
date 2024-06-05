@@ -57,6 +57,25 @@ const options = {
 app.use(expressExceptionHandler(options));
 ```
 
+## Exceptions
+1. #### BadRequestException
+* Status code - 400  
+```javascript
+throw new BadRequestException({
+  code: 'INVALID_PASSWORD',
+  message: 'invalid password'
+});
+```
+2. #### UnauthorizedException
+* Status code - 401
+```javascript
+throw new UnauthorizedException({
+  code: 'UNAUTHORIZED',
+  message: 'You are not authorized'
+});
+```
+
+
 ## Supported Database and ORMs
 1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
 2. MYSQL with [Sequelize](https://www.npmjs.com/package/sequelize)
@@ -67,7 +86,7 @@ app.use(expressExceptionHandler(options));
 To run the test suite, 
 1. first install the dependencies
 2. rename .env.sample to .env 
-3. You can run docker-comose up or set your own connection URLs for postgres database and mysql database in .env
+3. You can run `docker-comose up` or set your own connection URLs for postgres database and mysql database in .env
 4. run `npm test`:
 ```bash
 $ npm install
