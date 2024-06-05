@@ -57,6 +57,12 @@ const options = {
 app.use(expressExceptionHandler(options));
 ```
 
+## Supported Database and ORMs
+1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
+2. MYSQL with [Sequelize](https://www.npmjs.com/package/sequelize)
+3. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
+4. Postgres with [Sequelize](https://www.npmjs.com/package/sequelize)
+
 ## Tests
 To run the test suite, 
 1. first install the dependencies
