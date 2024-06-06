@@ -1,5 +1,10 @@
 # Unified Errors Handler
 Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.
+
+[![Latest Stable Version](https://img.shields.io/npm/v/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
+[![License](https://img.shields.io/npm/l/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
+[![NPM Downloads](https://img.shields.io/npm/dt/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
+[![NPM Downloads](https://img.shields.io/npm/dm/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
  ## Installation
 
 ```bash
@@ -164,6 +169,25 @@ throw new ServerException();
     details: { reason: 'age must not be NULL' },
   },
 ]
+```
+## Custom Exceptions
+You can create your own exceptions by extend `BaseException`
+```javascript
+export class MyCustomException extends BaseException {
+  statusCode = 400;
+
+  constructor(private message: string) {
+    super(message);
+    Object.setPrototypeOf(this, MyCustomException.prototype);
+  }
+
+  serializeErrors() {
+    return [{
+      message,
+      code: 'CUSTOM_CODE'
+    }];
+  }
+}
 ```
 
 ## Supported Database and ORMs
