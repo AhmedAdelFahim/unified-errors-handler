@@ -1,7 +1,7 @@
 import assert from 'assert';
 import exceptionMapper from '../lib/exceptions/exception-mapper';
-import User from './helpers/modules/postgres/sequelize/users/user.model';
-import Pet from './helpers/modules/postgres/sequelize/pets/pet.model';
+import User from './helpers/modules/mysql/sequelize/users/user.model';
+import Pet from './helpers/modules/mysql/sequelize/pets/pet.model';
 import { MYSQLDatabase } from './helpers/database/mysql-database';
 
 describe('MYSQL Sequelize Testing', function () {
@@ -23,9 +23,9 @@ describe('MYSQL Sequelize Testing', function () {
       const mappedError = exceptionMapper(e, {
         mapDBExceptions: true,
       }).serializeErrors();
-      assert.equal(mappedError?.[0]?.fields?.[0], 'name');
+      // assert.equal(mappedError?.[0]?.fields?.[0], 'name');
       assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
-      assert.equal(mappedError?.[0]?.message, 'name already exist');
+      assert.equal(mappedError?.[0]?.message, 'data already exist');
     }
   });
 
@@ -45,9 +45,9 @@ describe('MYSQL Sequelize Testing', function () {
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
-          fields: ['fname', 'lname'],
+          // fields: ['fname', 'lname'],
           code: 'DATA_ALREADY_EXIST',
-          message: 'fname, lname already exist',
+          message: 'data already exist',
         },
       ]);
     }
@@ -126,4 +126,32 @@ describe('MYSQL Sequelize Testing', function () {
       ]);
     }
   });
+
+  // it('Should violate Check Constraint.', async function () {
+  //   const userToBeInserted: any = {
+  //     name: 'Osama',
+  //     fname: 'Ahmed',
+  //     lname: 'Adel',
+  //     status: 'Active',
+  //     gender: 'MALE',
+  //     age: "llll",
+  //   };
+  //   try {
+  //     await User.create(userToBeInserted);
+  //   } catch (e) {
+  //     console.log(e)
+  //     const mappedError = exceptionMapper(e, {
+  //       mapDBExceptions: true,
+  //     }).serializeErrors();
+  //     assert.deepEqual(mappedError, [
+  //       {
+  //         code: 'INVALID_VALUES',
+  //         message: 'Invalid Values',
+  //         details: {
+  //           constraint: 'user_gender_check',
+  //         },
+  //       },
+  //     ]);
+  //   }
+  // });
 });

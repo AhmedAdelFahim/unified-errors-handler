@@ -9,6 +9,10 @@ const User = PostgresDatabase.getSequelizeInstance().define(
     fname: DataTypes.STRING,
     lname: DataTypes.STRING,
     status: DataTypes.STRING,
+    gender: {
+      type: DataTypes.ENUM,
+      values: ['MALE', 'FEMALE'],
+    },
     age: DataTypes.INTEGER,
     email: DataTypes.STRING,
   },

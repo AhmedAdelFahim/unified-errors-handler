@@ -1,13 +1,11 @@
 import { UniqueConstraintError, DatabaseError, ForeignKeyConstraintError } from 'sequelize';
 import { BaseException } from '../exceptions/base-exception';
-import { UniqueViolationException } from './exceptions/unique-violation-exception';
 import { ForeignKeyViolationException } from './exceptions/foreign-key-violation-exception';
 import objectionDBExceptionMapper from './objectionjs-mapper';
 
 export default function sequelizeDBExceptionMapper(err: unknown): BaseException | null {
   if (err instanceof UniqueConstraintError) {
-    const columns = Object.keys(err.fields);
-    return new UniqueViolationException(columns);
+    return objectionDBExceptionMapper(err.original);
   }
 
   if (err instanceof ForeignKeyConstraintError) {
