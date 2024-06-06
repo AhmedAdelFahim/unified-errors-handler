@@ -169,8 +169,10 @@ throw new ServerException();
 ## Supported Database and ORMs
 1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
 2. MYSQL with [Sequelize](https://www.npmjs.com/package/sequelize)
-3. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
-4. Postgres with [Sequelize](https://www.npmjs.com/package/sequelize)
+3. MYSQL with [TypeORM](https://typeorm.io)
+4. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
+5. Postgres with [Sequelize](https://www.npmjs.com/package/sequelize)
+6. Postgres with [TypeORM](https://typeorm.io)
 
 ## Tests
 To run the test suite, 

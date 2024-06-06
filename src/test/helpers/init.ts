@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { MYSQLDatabase } from './database/mysql-database';
 import { PostgresDatabase } from './database/postgres-database';
 
