@@ -12,6 +12,10 @@ export default class User {
   lname: string | undefined;
   @Column('varchar')
   status: string | undefined;
+  @Column('enum', {
+    enum: ['MALE', 'FEMALE'],
+  })
+  gender: 'MALE' | 'FEMALE' | undefined;
   @Column('bigint')
   age: number | undefined;
   @Column('varchar')

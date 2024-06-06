@@ -1,8 +1,15 @@
-import { ForeignKeyViolationError, NotNullViolationError, UniqueViolationError, wrapError } from 'db-errors';
+import {
+  CheckViolationError,
+  ForeignKeyViolationError,
+  NotNullViolationError,
+  UniqueViolationError,
+  wrapError,
+} from 'db-errors';
 import { BaseException } from '../exceptions/base-exception';
 import { UniqueViolationException } from './exceptions/unique-violation-exception';
 import { ForeignKeyViolationException } from './exceptions/foreign-key-violation-exception';
 import { NotNullViolationException } from './exceptions/not-null-violation-exception';
+import { CheckViolationException } from './exceptions/check-violation-exception';
 
 export default function objectionDBExceptionMapper(error: unknown): BaseException | null {
   const err = wrapError(error as Error);
@@ -16,6 +23,10 @@ export default function objectionDBExceptionMapper(error: unknown): BaseExceptio
   }
   if (err instanceof ForeignKeyViolationError) {
     return new ForeignKeyViolationException(err.constraint, err.nativeError);
+  }
+
+  if (err instanceof CheckViolationError) {
+    return new CheckViolationException(err.constraint);
   }
   return null;
 }

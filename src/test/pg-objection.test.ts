@@ -130,4 +130,31 @@ describe('Postgres ObjectionJS Testing', function () {
       ]);
     }
   });
+
+  it('Should violate Check Constraint.', async function () {
+    const userToBeInserted: any = {
+      name: 'Osama',
+      fname: 'Ahmed',
+      lname: 'Adel',
+      status: 'Active',
+      gender: 'FEMALEE',
+      age: 43,
+    };
+    try {
+      await userRepo.create(userToBeInserted);
+    } catch (e) {
+      const mappedError = exceptionMapper(e, {
+        mapDBExceptions: true,
+      }).serializeErrors();
+      assert.deepEqual(mappedError, [
+        {
+          code: 'INVALID_VALUES',
+          message: 'Invalid Values',
+          details: {
+            constraint: 'user_gender_check',
+          },
+        },
+      ]);
+    }
+  });
 });
