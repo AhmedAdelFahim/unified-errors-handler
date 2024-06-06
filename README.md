@@ -191,12 +191,15 @@ export class MyCustomException extends BaseException {
 ```
 
 ## Supported Database and ORMs
-1. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
-2. MYSQL with [Sequelize](https://www.npmjs.com/package/sequelize)
-3. MYSQL with [TypeORM](https://typeorm.io)
-4. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
-5. Postgres with [Sequelize](https://www.npmjs.com/package/sequelize)
-6. Postgres with [TypeORM](https://typeorm.io)
+1. MYSQL with [TypeORM](https://typeorm.io)
+2. Postgres with [TypeORM](https://typeorm.io)
+3. MYSQL with [Sequelize](https://www.npmjs.com/package/sequelize)
+4. Postgres with [Sequelize](https://www.npmjs.com/package/sequelize)
+5. MYSQL with [ObjectionJS](https://www.npmjs.com/package/objection)
+6. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
+5. MYSQL with [KnexJS](https://knexjs.org)
+6. Postgres with [KnexJS](https://knexjs.org)
+
 
 ## Tests
 To run the test suite, 

@@ -10,12 +10,12 @@ import { TypeORMError } from 'typeorm';
 function dbExceptionMapper(error: unknown): BaseException | null {
   if (error instanceof BaseError) {
     return sequelizeDBExceptionMapper(error);
-  }
-  if (error instanceof DBError) {
-    return objectionDBExceptionMapper(error);
-  }
-  if (error instanceof TypeORMError) {
+  } else if (error instanceof TypeORMError) {
     return typeormDBExceptionMapper(error);
+  } else if (error instanceof DBError) {
+    return objectionDBExceptionMapper(error);
+  } else {
+    return objectionDBExceptionMapper(error);
   }
   return null;
 }
