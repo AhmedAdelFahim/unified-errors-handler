@@ -21,6 +21,7 @@
     "url": "git+https://github.com/AhmedAdelFahim/unified-errors-handler.git"
   },
   "author": "Ahmed Adel",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AhmedAdelFahim/unified-errors-handler/issues"
   },
