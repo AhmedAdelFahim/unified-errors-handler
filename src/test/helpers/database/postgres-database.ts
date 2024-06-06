@@ -71,6 +71,7 @@ export class PostgresDatabase {
       table.string('lname');
       table.integer('age').notNullable();
       table.string('status').notNullable();
+      table.enu('gender', ['MALE', 'FEMALE']);
       table.string('email').defaultTo(null);
       table.unique(['fname', 'lname'], {
         indexName: 'fname_lname_unique_index',

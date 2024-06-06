@@ -1,8 +1,8 @@
 import assert from 'assert';
-import { UserRepository } from './helpers/modules/postgres/objectionjs/users/user.repository';
 import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { PetRepository } from './helpers/modules/postgres/objectionjs/pets/pet.repository';
 import { MYSQLDatabase } from './helpers/database/mysql-database';
+import { PetRepository } from './helpers/modules/mysql/objectionjs/pets/pet.repository';
+import { UserRepository } from './helpers/modules/mysql/objectionjs/users/user.repository';
 
 describe('MYSQL ObjectionJS Testing', function () {
   let userRepo: UserRepository;
@@ -132,4 +132,31 @@ describe('MYSQL ObjectionJS Testing', function () {
       ]);
     }
   });
+  // it('Should violate Check Constraint.', async function () {
+  //   const userToBeInserted: any = {
+  //     name: 'Osama',
+  //     fname: 'Ahmed',
+  //     lname: 'Adel',
+  //     status: 'Active',
+  //     gender: 'fff',
+  //     age: 43,
+  //   };
+  //   try {
+  //     await userRepo.create(userToBeInserted);
+  //   } catch (e) {
+  //     console.log(e)
+  //     const mappedError = exceptionMapper(e, {
+  //       mapDBExceptions: true,
+  //     }).serializeErrors();
+  //     assert.deepEqual(mappedError, [
+  //       {
+  //         code: 'INVALID_VALUES',
+  //         message: 'Invalid Values',
+  //         details: {
+  //           constraint: 'user_gender_check',
+  //         },
+  //       },
+  //     ]);
+  //   }
+  // });
 });
