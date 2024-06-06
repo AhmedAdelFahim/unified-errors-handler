@@ -6,15 +6,15 @@ import { TABLES } from './table.constant';
 import * as dotenv from 'dotenv';
 import { users } from './data/users.json';
 import { pets } from './data/pets.json';
+import { DataSource } from 'typeorm';
+import User from '../modules/mysql/typeorm/users/user.model';
+import Pet from '../modules/mysql/typeorm/pets/pet.model';
 
 dotenv.config();
 export class MYSQLDatabase {
   private static _knexInstance: KnexType | null = null;
   private static _sequelizeInstance: Sequelize | null = null;
-  private static dbHost: string = process?.env?.MYSQL_HOST || '';
-  private static dbPort: string = process?.env?.MYSQL_PORT || '';
-  private static dbPassword: string = process?.env?.MYSQL_PASSWORD || '';
-  private static dbName: string = process?.env?.MYSQL_DB || '';
+  private static _typeormInstance: DataSource | null = null;
   private static MYSQL_DB_URL: string = process?.env?.MYSQL_DB_URL || '';
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
@@ -39,6 +39,21 @@ export class MYSQLDatabase {
       return this._sequelizeInstance;
     } else {
       return this._sequelizeInstance;
+    }
+  }
+
+  static async getTypeormInstance() {
+    if (R.isNil(this._typeormInstance)) {
+      this._typeormInstance = new DataSource({
+        type: 'mysql',
+        url: this.MYSQL_DB_URL,
+        entities: [User, Pet],
+        logging: false,
+      });
+      await this._typeormInstance.initialize();
+      return this._typeormInstance;
+    } else {
+      return this._typeormInstance;
     }
   }
 
@@ -101,5 +116,6 @@ export class MYSQLDatabase {
   static async teardown() {
     await (await this.getInstance())?.destroy();
     await this.getSequelizeInstance().close();
+    await (await this.getTypeormInstance()).destroy();
   }
 }

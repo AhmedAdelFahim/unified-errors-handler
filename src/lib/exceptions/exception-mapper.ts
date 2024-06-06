@@ -5,12 +5,17 @@ import { ServerException } from './server-exception';
 import { BaseError } from 'sequelize';
 import sequelizeDBExceptionMapper from '../db-exceptions/sequelize-mapper';
 import objectionDBExceptionMapper from '../db-exceptions/objectionjs-mapper';
+import typeormDBExceptionMapper from '../db-exceptions/typeorm-mapper';
+import { TypeORMError } from 'typeorm';
 function dbExceptionMapper(error: unknown): BaseException | null {
   if (error instanceof BaseError) {
     return sequelizeDBExceptionMapper(error);
   }
   if (error instanceof DBError) {
     return objectionDBExceptionMapper(error);
+  }
+  if (error instanceof TypeORMError) {
+    return typeormDBExceptionMapper(error);
   }
   return null;
 }

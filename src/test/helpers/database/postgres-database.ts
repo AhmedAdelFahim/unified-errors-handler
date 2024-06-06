@@ -1,16 +1,20 @@
 import Knex, { Knex as KnexType } from 'knex';
 import { Sequelize } from 'sequelize';
+import { DataSource } from 'typeorm';
 import R from 'ramda';
 import { Model } from 'objection';
 import { TABLES } from './table.constant';
 import * as dotenv from 'dotenv';
 import { users } from './data/users.json';
 import { pets } from './data/pets.json';
+import User from '../modules/postgres/typeorm/users/user.model';
+import Pet from '../modules/postgres/typeorm/pets/pet.model';
 
 dotenv.config();
 export class PostgresDatabase {
   private static _knexInstance: KnexType | null = null;
   private static _sequelizeInstance: Sequelize | null = null;
+  private static _typeormInstance: DataSource | null = null;
   private static postgresURL: string = process?.env?.POSTGRES_DB_URL || '';
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
@@ -26,6 +30,21 @@ export class PostgresDatabase {
     } else {
       Model.knex(this._knexInstance);
       return this._knexInstance;
+    }
+  }
+
+  static async getTypeormInstance() {
+    if (R.isNil(this._typeormInstance)) {
+      this._typeormInstance = new DataSource({
+        type: 'postgres',
+        url: this.postgresURL,
+        entities: [User, Pet],
+        logging: false,
+      });
+      await this._typeormInstance.initialize();
+      return this._typeormInstance;
+    } else {
+      return this._typeormInstance;
     }
   }
 
@@ -91,5 +110,6 @@ export class PostgresDatabase {
   static async teardown() {
     await (await this.getInstance())?.destroy();
     await this.getSequelizeInstance().close();
+    await (await this.getTypeormInstance()).destroy();
   }
 }
