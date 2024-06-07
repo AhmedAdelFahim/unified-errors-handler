@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import R from 'ramda';
 import { InvalidDataException } from './invalid-data-exception';
+import { OutOfRangeViolationException } from './out-of-range-violation-exception';
 
 const supportedErrors = {
   WARN_DATA_TRUNCATED: (error: any) => {
@@ -10,18 +11,34 @@ const supportedErrors = {
     });
   },
   ER_WARN_DATA_OUT_OF_RANGE: (error: any) => {
-    return new InvalidDataException({
-      code: 'INVALID_VALUES',
-      message: `Invalid Values`,
-    });
+    return new OutOfRangeViolationException();
+  },
+  // postgres errors
+  // out of range error
+  22003: (error: any) => {
+    return new OutOfRangeViolationException();
   },
 };
-export function isMYSQLError(error: any) {
-  return !R.isNil(error?.code) && !R.isNil(error?.errno);
+export function isSQLError(error: any) {
+  return (
+    Object.keys(supportedErrors).includes(error?.code) ||
+    Object.keys(supportedErrors).includes(error?.nativeError?.code)
+  );
 }
 
-export function parseMYSQLErrors(error: any) {
+export function parseSQLErrors(error: any) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return supportedErrors[error.code](error);
+  if (supportedErrors?.[error?.code]) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return supportedErrors?.[error?.code](error);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+  } else if (supportedErrors?.[error?.nativeError?.code]) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return supportedErrors?.[error?.nativeError?.code](error);
+  }
+  return null;
 }
