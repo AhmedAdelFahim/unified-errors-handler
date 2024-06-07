@@ -4,7 +4,7 @@ import { SQLDatabaseException } from './sql-database-exception';
 export class NotNullViolationException extends SQLDatabaseException {
   statusCode = httpStatus.BAD_REQUEST;
 
-  constructor(public column: string) {
+  constructor(private column: string) {
     super([
       {
         fields: [column],

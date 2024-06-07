@@ -127,31 +127,26 @@ describe('MYSQL Sequelize Testing', function () {
     }
   });
 
-  // it('Should violate Check Constraint.', async function () {
-  //   const userToBeInserted: any = {
-  //     name: 'Osama',
-  //     fname: 'Ahmed',
-  //     lname: 'Adel',
-  //     status: 'Active',
-  //     gender: 'MALE',
-  //     age: "llll",
-  //   };
-  //   try {
-  //     await User.create(userToBeInserted);
-  //   } catch (e) {
-  //     console.log(e)
-  //     const mappedError = exceptionMapper(e, {
-  //       mapDBExceptions: true,
-  //     }).serializeErrors();
-  //     assert.deepEqual(mappedError, [
-  //       {
-  //         code: 'INVALID_VALUES',
-  //         message: 'Invalid Values',
-  //         details: {
-  //           constraint: 'user_gender_check',
-  //         },
-  //       },
-  //     ]);
-  //   }
-  // });
+  it('Should violate Check Constraint.', async function () {
+    const userToBeInserted: any = {
+      name: 'Osama',
+      fname: 'Ahmed',
+      lname: 'Adel',
+      status: 'Active',
+      gender: 'fff',
+    };
+    try {
+      await User.create(userToBeInserted);
+    } catch (e) {
+      const mappedError = exceptionMapper(e, {
+        mapDBExceptions: true,
+      }).serializeErrors();
+      assert.deepEqual(mappedError, [
+        {
+          code: 'INVALID_VALUES',
+          message: 'Invalid Values',
+        },
+      ]);
+    }
+  });
 });

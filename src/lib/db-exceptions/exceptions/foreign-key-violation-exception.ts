@@ -51,7 +51,7 @@ function extractDetails(constraint: string, nativeError: any) {
 export class ForeignKeyViolationException extends SQLDatabaseException {
   statusCode = httpStatus.BAD_REQUEST;
 
-  constructor(public constraint: string, public nativeError?: any) {
+  constructor(private constraint: string, private nativeError?: any) {
     super(extractDetails(constraint, nativeError));
     Object.setPrototypeOf(this, ForeignKeyViolationException.prototype);
   }

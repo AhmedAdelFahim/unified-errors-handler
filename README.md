@@ -170,6 +170,21 @@ throw new ServerException();
   },
 ]
 ```
+4. #### CheckViolationException
+* Status code - 400  
+* Example - Invalid enum value
+```javascript
+// output
+[{
+  code: 'INVALID_VALUES',
+  message: 'Invalid Values',
+  details: {
+    constraint: 'user_gender_check',
+  },
+}]
+```
+
+
 ## Custom Exceptions
 You can create your own exceptions by extend `BaseException`
 ```javascript

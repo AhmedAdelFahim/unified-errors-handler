@@ -5,7 +5,7 @@ import { BaseException } from '../../exceptions/base-exception';
 export class SQLDatabaseException extends BaseException {
   statusCode = httpStatus.BAD_REQUEST;
 
-  constructor(public error: IException[]) {
+  constructor(protected error: IException[]) {
     super('Error: SQLDatabaseException');
     Object.setPrototypeOf(this, SQLDatabaseException.prototype);
   }

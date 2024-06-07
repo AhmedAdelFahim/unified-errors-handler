@@ -1,5 +1,6 @@
 import {
   CheckViolationError,
+  DataError,
   ForeignKeyViolationError,
   NotNullViolationError,
   UniqueViolationError,
@@ -10,6 +11,8 @@ import { UniqueViolationException } from './exceptions/unique-violation-exceptio
 import { ForeignKeyViolationException } from './exceptions/foreign-key-violation-exception';
 import { NotNullViolationException } from './exceptions/not-null-violation-exception';
 import { CheckViolationException } from './exceptions/check-violation-exception';
+import { InvalidDataException } from './exceptions/invalid-data-exception';
+import { isMYSQLError, parseMYSQLErrors } from './exceptions/parser';
 
 export default function objectionDBExceptionMapper(error: unknown): BaseException | null {
   const err = wrapError(error as Error);
@@ -27,6 +30,14 @@ export default function objectionDBExceptionMapper(error: unknown): BaseExceptio
 
   if (err instanceof CheckViolationError) {
     return new CheckViolationException(err.constraint);
+  }
+
+  if (err instanceof DataError) {
+    return new InvalidDataException();
+  }
+
+  if (isMYSQLError(err)) {
+    return parseMYSQLErrors(err);
   }
   return null;
 }
