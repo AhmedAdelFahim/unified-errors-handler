@@ -183,6 +183,19 @@ throw new ServerException();
   },
 }]
 ```
+5. #### OutOfRangeViolationException
+* Status code - 400  
+* Example - numeric value out of range 
+```javascript
+// output
+[{
+  {
+    code: 'OUT_OF_RANGE',
+    message: 'Out of range',
+  },
+}]
+```
+
 
 
 ## Custom Exceptions

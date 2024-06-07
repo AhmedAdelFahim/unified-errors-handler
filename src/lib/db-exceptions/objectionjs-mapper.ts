@@ -12,7 +12,7 @@ import { ForeignKeyViolationException } from './exceptions/foreign-key-violation
 import { NotNullViolationException } from './exceptions/not-null-violation-exception';
 import { CheckViolationException } from './exceptions/check-violation-exception';
 import { InvalidDataException } from './exceptions/invalid-data-exception';
-import { isMYSQLError, parseMYSQLErrors } from './exceptions/parser';
+import { isSQLError, parseSQLErrors } from './exceptions/parser';
 
 export default function objectionDBExceptionMapper(error: unknown): BaseException | null {
   const err = wrapError(error as Error);
@@ -32,12 +32,13 @@ export default function objectionDBExceptionMapper(error: unknown): BaseExceptio
     return new CheckViolationException(err.constraint);
   }
 
+  if (isSQLError(err)) {
+    return parseSQLErrors(err);
+  }
+
   if (err instanceof DataError) {
     return new InvalidDataException();
   }
 
-  if (isMYSQLError(err)) {
-    return parseMYSQLErrors(err);
-  }
   return null;
 }

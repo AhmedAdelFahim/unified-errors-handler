@@ -155,4 +155,28 @@ describe('MYSQL Typeorm Testing', function () {
       ]);
     }
   });
+
+  it('Should violate Check Constraint.', async function () {
+    const userToBeInserted: any = {
+      name: 'Osama',
+      fname: 'Ahmed',
+      lname: 'Adel',
+      status: 'Active',
+      gender: 'FEMALE',
+      age: 999999999999999,
+    };
+    try {
+      await userRepo.create(userToBeInserted);
+    } catch (e) {
+      const mappedError = exceptionMapper(e, {
+        mapDBExceptions: true,
+      }).serializeErrors();
+      assert.deepEqual(mappedError, [
+        {
+          code: 'OUT_OF_RANGE',
+          message: 'Out of range',
+        },
+      ]);
+    }
+  });
 });
