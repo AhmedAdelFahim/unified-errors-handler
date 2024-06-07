@@ -35,7 +35,9 @@ export class MYSQLDatabase {
 
   static getSequelizeInstance() {
     if (R.isNil(this._sequelizeInstance)) {
-      this._sequelizeInstance = new Sequelize(this.MYSQL_DB_URL);
+      this._sequelizeInstance = new Sequelize(this.MYSQL_DB_URL, {
+        logging: false,
+      });
       return this._sequelizeInstance;
     } else {
       return this._sequelizeInstance;

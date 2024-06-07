@@ -132,4 +132,26 @@ describe('MYSQL Knex Testing', function () {
       ]);
     }
   });
+  it('Should violate Check Constraint.', async function () {
+    const userToBeInserted: any = {
+      name: 'Osama',
+      fname: 'Ahmed',
+      lname: 'Adel',
+      status: 'Active',
+      gender: 'fff',
+    };
+    try {
+      await userRepo.create(userToBeInserted);
+    } catch (e) {
+      const mappedError = exceptionMapper(e, {
+        mapDBExceptions: true,
+      }).serializeErrors();
+      assert.deepEqual(mappedError, [
+        {
+          code: 'INVALID_VALUES',
+          message: 'Invalid Values',
+        },
+      ]);
+    }
+  });
 });

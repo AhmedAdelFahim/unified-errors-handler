@@ -5,7 +5,7 @@ import { SQLDatabaseException } from './sql-database-exception';
 export class UniqueViolationException extends SQLDatabaseException {
   statusCode = httpStatus.BAD_REQUEST;
 
-  constructor(public columns: string[]) {
+  constructor(private columns: string[]) {
     const errorObj: any = {
       fields: columns,
       code: 'DATA_ALREADY_EXIST',
