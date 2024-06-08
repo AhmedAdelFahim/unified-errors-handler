@@ -54,6 +54,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "knex": "^3.1.0",
     "mocha": "^10.4.0",
+    "mongoose": "^8.4.1",
     "mysql2": "^3.10.0",
     "objection": "^3.1.4",
     "objectionjs-repository": "^1.0.9",
