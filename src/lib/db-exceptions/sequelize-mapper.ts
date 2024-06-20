@@ -1,6 +1,6 @@
 import { UniqueConstraintError, DatabaseError, ForeignKeyConstraintError } from 'sequelize';
 import { BaseException } from '../exceptions/base-exception';
-import { ForeignKeyViolationException } from './exceptions/foreign-key-violation-exception';
+import { ForeignKeyViolationException } from './exceptions/sql-exceptions/foreign-key-violation-exception';
 import objectionDBExceptionMapper from './objectionjs-mapper';
 
 export default function sequelizeDBExceptionMapper(err: unknown): BaseException | null {

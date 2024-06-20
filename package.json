@@ -1,6 +1,6 @@
 {
   "name": "unified-errors-handler",
-  "version": "2.2.3",
+  "version": "3.0.0",
   "description": "Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.",
   "main": "build/index.js",
   "files": [
@@ -31,6 +31,8 @@
     "handler",
     "database",
     "express",
+    "mongoose",
+    "mongodb",
     "knex",
     "typeorm",
     "objectionjs",
@@ -55,11 +57,9 @@
     "knex": "^3.1.0",
     "mocha": "^10.4.0",
     "mysql2": "^3.10.0",
-    "objection": "^3.1.4",
     "objectionjs-repository": "^1.0.9",
     "pg": "^8.11.5",
     "prettier": "^2.8.3",
-    "ramda": "^0.30.1",
     "reflect-metadata": "^0.2.2",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2"
@@ -69,6 +69,9 @@
     "express": "^4.19.2",
     "http-status": "^1.7.4",
     "joi": "^17.13.1",
+    "mongoose": "^8.4.3",
+    "objection": "^3.1.4",
+    "ramda": "^0.30.1",
     "sequelize": "^6.37.3",
     "typeorm": "^0.3.20"
   }

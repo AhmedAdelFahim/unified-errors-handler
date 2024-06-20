@@ -7,8 +7,11 @@ import sequelizeDBExceptionMapper from '../db-exceptions/sequelize-mapper';
 import objectionDBExceptionMapper from '../db-exceptions/objectionjs-mapper';
 import typeormDBExceptionMapper from '../db-exceptions/typeorm-mapper';
 import { TypeORMError } from 'typeorm';
+import mongoDBExceptionParser, { isMongoDBError, isMongooseDBError } from '../db-exceptions/mongodb-parser';
 function dbExceptionMapper(error: unknown): BaseException | null {
-  if (error instanceof BaseError) {
+  if (isMongoDBError(error) || isMongooseDBError(error)) {
+    return mongoDBExceptionParser(error);
+  } else if (error instanceof BaseError) {
     return sequelizeDBExceptionMapper(error);
   } else if (error instanceof TypeORMError) {
     return typeormDBExceptionMapper(error);
@@ -17,7 +20,6 @@ function dbExceptionMapper(error: unknown): BaseException | null {
   } else {
     return objectionDBExceptionMapper(error);
   }
-  return null;
 }
 
 export default function exceptionMapper(err: unknown, options?: IExceptionMapperOptions): BaseException {
