@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import R from 'ramda';
-import { InvalidDataException } from './invalid-data-exception';
-import { OutOfRangeViolationException } from './out-of-range-violation-exception';
+import { InvalidDataException } from './sql-exceptions/invalid-data-exception';
+import { OutOfRangeViolationException } from './sql-exceptions/out-of-range-violation-exception';
 
 const supportedErrors = {
   WARN_DATA_TRUNCATED: (error: any) => {

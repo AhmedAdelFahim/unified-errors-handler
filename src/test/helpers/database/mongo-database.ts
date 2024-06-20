@@ -1,13 +1,14 @@
 import R from 'ramda';
 import * as dotenv from 'dotenv';
 import { users } from './data/users.json';
-// import { pets } from './data/pets.json';
 import mongoose, { Mongoose } from 'mongoose';
 import User from '../modules/mongodb/mongoosejs/users/user.model';
+import { DataSource } from 'typeorm';
 
 dotenv.config();
 export class MongoDatabase {
   private static _mongooseInstance: Mongoose | null = null;
+  private static _typeormInstance: DataSource | null = null;
   private static MONGO_DB_URL: string = process?.env?.MONGO_DB_URL || '';
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
@@ -16,6 +17,8 @@ export class MongoDatabase {
     if (R.isNil(this._mongooseInstance)) {
       this._mongooseInstance = await mongoose.connect(this.MONGO_DB_URL, {
         dbName: 'unit_test',
+        autoIndex: true,
+        autoCreate: false,
       });
       return this._mongooseInstance;
     } else {
@@ -23,14 +26,18 @@ export class MongoDatabase {
     }
   }
 
-  static async initSchema() {
-    (await this.getInstance()).connection.dropCollection('users');
+  static async cleanCollections() {
+    try {
+      await User.deleteMany({});
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   static async seed() {
-    await (await this.getInstance()).connection.dropCollection('users');
+    await this.cleanCollections();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const userList = await User.create(users);
-    console.log(userList);
     // await (await this.getInstance())?.table(TABLES.PET)?.insert(
     //   pets.map((pet) => {
     //     const clonedPet = JSON.parse(JSON.stringify(pet));
@@ -41,7 +48,7 @@ export class MongoDatabase {
   }
 
   static async init() {
-    await this.initSchema();
+    await this.getInstance();
     await this.seed();
   }
 

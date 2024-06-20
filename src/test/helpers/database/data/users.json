@@ -6,14 +6,16 @@
             "lname": "Adel",
             "status": "Active",
             "age": 25,
-            "email": "ahmed@example.com"
+            "email": "ahmed@example.com",
+            "blood_type": "A"
         },
         {
             "name": "Ali",
             "fname": "Ali",
             "lname": "Adel",
             "status": "Active",
-            "age": 30
+            "age": 30,
+            "blood_type": "A"
         },
         {
             "name": "Adel",
@@ -21,7 +23,8 @@
             "lname": "Adel",
             "status": "Active",
             "age": 40,
-            "email": "adel@example.com"
+            "email": "adel@example.com",
+            "blood_type": "A"
         }
     ]
 }

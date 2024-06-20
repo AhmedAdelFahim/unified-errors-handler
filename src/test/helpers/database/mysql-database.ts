@@ -72,6 +72,7 @@ export class MYSQLDatabase {
       table.integer('age').notNullable();
       table.string('status').notNullable();
       table.enu('gender', ['MALE', 'FEMALE']);
+      table.enu('blood_type', ['A', 'B', 'A+']);
       table.string('email').defaultTo(null);
       table.unique(['fname', 'lname'], {
         indexName: 'fname_lname_unique_index',

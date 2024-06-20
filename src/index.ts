@@ -8,7 +8,7 @@ import { ForbiddenException } from './lib/exceptions/forbidden-exception';
 import { ValidationException } from './lib/exceptions/validation-exception';
 import { ServerException } from './lib/exceptions/server-exception';
 import { JoiValidationException } from './lib/common-exceptions/joi-validation-exception';
-import { SQLDatabaseException } from './lib/db-exceptions/exceptions/sql-database-exception';
+import { SQLDatabaseException } from './lib/db-exceptions/exceptions/sql-exceptions/sql-database-exception';
 export {
   expressExceptionHandler,
   exceptionMapper,

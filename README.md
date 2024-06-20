@@ -120,7 +120,7 @@ throw new NotFoundException([
 ```javascript
 throw new ServerException();
 ```
-## Database Exceptions
+## SQL Database Exceptions
 1. #### UniqueViolationException
 * Status code - 400  
 ```javascript
@@ -195,8 +195,73 @@ throw new ServerException();
   },
 }]
 ```
-
-
+## No SQL Database Exceptions
+1. #### MongoDBUniqueViolationException
+* Status code - 400  
+```javascript
+// output
+[
+  {
+    fields: ['name'],
+    values: ['Ahmed'],
+    code: 'DATA_ALREADY_EXIST',
+    message: 'name already exist',
+  },
+]
+```
+2. #### MongooseValidationException
+* Status code - 400  
+```javascript
+// output
+[
+  // field is required
+  {
+    fields: ['age'],
+    message: 'Path `age` is required.',
+    code: 'MONGODB_VALIDATION_ERROR',
+    details: { 
+      reason: 'age is required', 
+      violate: 'required_validation'
+    },
+  },
+  // field's value violate enum values
+  {
+    fields: ['gender'],
+    message: '`MALEE` is not a valid enum value for path `gender`.',
+    code: 'MONGODB_VALIDATION_ERROR',
+    details: { 
+      reason: "gender's value must be one of MALE, FEMALE", 
+      violate: 'enum_validation'
+    },
+  },
+  // field's value violate max value
+  {
+    fields: ['age'],
+    message: 'Path `age` (300) is more than maximum allowed value (50).',
+    code: 'MONGODB_VALIDATION_ERROR',
+    details: { 
+      reason: `age's value exceed maximum allowed value (50)`, 
+      violate: 'max_validation'
+    },
+  },
+  // field's value violate min value
+  {
+    fields: ['age'],
+    message: 'Path `age` (3) is less than minimum allowed value (20).',
+    code: 'MONGODB_VALIDATION_ERROR',
+    details: { 
+      reason: `age's value less than minimum allowed value (20)`, 
+      violate: 'min_validation'
+    },
+  },
+  // field's value violate type of field
+  {
+    fields: ['age'],
+    message: 'age is invalid',
+    code: 'MONGODB_CASTING_ERROR',
+  },
+]
+```
 
 ## Custom Exceptions
 You can create your own exceptions by extend `BaseException`
@@ -227,6 +292,7 @@ export class MyCustomException extends BaseException {
 6. Postgres with [ObjectionJS](https://www.npmjs.com/package/objection)
 5. MYSQL with [KnexJS](https://knexjs.org)
 6. Postgres with [KnexJS](https://knexjs.org)
+7. MongoDB with [Mongoose](https://www.npmjs.com/package/mongoose)
 
 
 ## Tests
