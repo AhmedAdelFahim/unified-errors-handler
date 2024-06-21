@@ -1,6 +1,6 @@
 {
   "name": "unified-errors-handler",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.",
   "main": "build/index.js",
   "files": [
@@ -12,7 +12,7 @@
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prepublishOnly": "npm run lint",
+    "prepublishOnly": "npm run build",
     "preversion": "npm run lint"
   },
   "repository": {
