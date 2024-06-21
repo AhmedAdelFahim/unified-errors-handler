@@ -7,4 +7,9 @@ export interface IException {
 
 export interface IExceptionMapperOptions {
   mapDBExceptions?: boolean;
+  parseSequelizeExceptions?: boolean;
+  parseMongooseExceptions?: boolean;
+  parseTypeORMExceptions?: boolean;
+  parseObjectionJSExceptions?: boolean;
+  parseKnexJSExceptions?: boolean;
 }

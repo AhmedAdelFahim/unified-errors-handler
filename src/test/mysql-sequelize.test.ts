@@ -19,9 +19,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       // assert.equal(mappedError?.[0]?.fields?.[0], 'name');
       assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
@@ -39,9 +40,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -62,9 +64,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -86,9 +89,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await Pet.create(pet);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -110,9 +114,10 @@ describe('MYSQL Sequelize Testing', function () {
           name: 'Ahmed',
         },
       });
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -137,9 +142,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -161,9 +167,10 @@ describe('MYSQL Sequelize Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseSequelizeExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

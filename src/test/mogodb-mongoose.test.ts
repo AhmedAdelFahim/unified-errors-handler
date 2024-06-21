@@ -18,9 +18,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -43,9 +44,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -67,9 +69,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -91,9 +94,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -114,9 +118,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -146,9 +151,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -173,9 +179,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -200,9 +207,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -233,9 +241,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -266,9 +275,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -293,9 +303,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -320,9 +331,10 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseMongooseExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

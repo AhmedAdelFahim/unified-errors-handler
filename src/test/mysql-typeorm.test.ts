@@ -28,9 +28,10 @@ describe('MYSQL Typeorm Testing', function () {
     };
     try {
       await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -51,9 +52,10 @@ describe('MYSQL Typeorm Testing', function () {
     };
     try {
       await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -73,9 +75,10 @@ describe('MYSQL Typeorm Testing', function () {
     };
     try {
       await userRepo.save(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -97,9 +100,10 @@ describe('MYSQL Typeorm Testing', function () {
     };
     try {
       await petRepo.save(pet);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -117,9 +121,10 @@ describe('MYSQL Typeorm Testing', function () {
   it('Should violate Foreign Constraint (delete row has reference in another table).', async function () {
     try {
       await userRepo.delete({ name: 'Ahmed' });
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -142,10 +147,11 @@ describe('MYSQL Typeorm Testing', function () {
       gender: 'fff',
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -166,10 +172,11 @@ describe('MYSQL Typeorm Testing', function () {
       age: 999999999999999,
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
