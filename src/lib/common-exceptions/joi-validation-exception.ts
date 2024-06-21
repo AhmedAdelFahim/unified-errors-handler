@@ -1,11 +1,10 @@
-import { ValidationError, ValidationErrorItem } from 'joi';
 import { ValidationException } from '../exceptions/validation-exception';
 import { IException } from '../exceptions/interfaces/exception.interface';
 
 export class JoiValidationException extends ValidationException {
-  constructor(public errors: ValidationError) {
+  constructor(public errors: any) {
     super(
-      errors.details.map((error: ValidationErrorItem): IException => {
+      errors.details.map((error: any): IException => {
         return {
           message: error.message,
         };

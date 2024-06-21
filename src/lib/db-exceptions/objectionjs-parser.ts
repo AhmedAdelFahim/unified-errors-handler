@@ -14,7 +14,7 @@ import { CheckViolationException } from './exceptions/sql-exceptions/check-viola
 import { InvalidDataException } from './exceptions/sql-exceptions/invalid-data-exception';
 import { isSQLError, parseSQLErrors } from './exceptions/parser';
 
-export default function objectionDBExceptionMapper(error: unknown): BaseException | null {
+export default function objectionDBExceptionParser(error: unknown): BaseException | null {
   const err = wrapError(error as Error);
   if (err instanceof UniqueViolationError) {
     const columns = err?.columns || [];

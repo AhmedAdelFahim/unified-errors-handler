@@ -27,9 +27,10 @@ describe('Postgres Typeorm Testing', function () {
     user.age = 28;
     try {
       await userRepo.save(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.equal(mappedError?.[0]?.fields?.[0], 'name');
       assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
@@ -47,9 +48,10 @@ describe('Postgres Typeorm Testing', function () {
     };
     try {
       await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -70,9 +72,10 @@ describe('Postgres Typeorm Testing', function () {
     };
     try {
       await userRepo.save(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -94,9 +97,10 @@ describe('Postgres Typeorm Testing', function () {
     };
     try {
       await petRepo.save(pet);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -116,9 +120,10 @@ describe('Postgres Typeorm Testing', function () {
       await userRepo.delete({
         name: 'Ahmed',
       });
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -143,10 +148,11 @@ describe('Postgres Typeorm Testing', function () {
       age: 23,
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -167,13 +173,14 @@ describe('Postgres Typeorm Testing', function () {
       lname: 'Adel',
       status: 'Active',
       gender: 'FEMALE',
-      age: 999999999999999,
+      age: '9999999999999999999999999999',
     };
     try {
-      await userRepo.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

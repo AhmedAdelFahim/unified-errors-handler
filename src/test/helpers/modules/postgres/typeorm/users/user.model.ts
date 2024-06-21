@@ -16,7 +16,7 @@ export default class User {
   lname: string | undefined;
   @Column('character varying')
   status: string | undefined;
-  @Column('bigint')
+  @Column('integer')
   age: number | undefined;
   @Column('character varying')
   email: string | undefined;

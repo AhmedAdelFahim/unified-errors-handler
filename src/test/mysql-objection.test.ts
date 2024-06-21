@@ -27,9 +27,10 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await userRepo.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -50,9 +51,10 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await userRepo.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -72,9 +74,10 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await userRepo.create(user);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -96,9 +99,10 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await petRepo.create(pet);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -116,9 +120,10 @@ describe('MYSQL ObjectionJS Testing', function () {
   it('Should violate Foreign Constraint (delete row has reference in another table).', async function () {
     try {
       await userRepo.delete({ name: 'Ahmed' });
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -142,9 +147,11 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await userRepo.create(userToBeInserted);
+
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -166,9 +173,10 @@ describe('MYSQL ObjectionJS Testing', function () {
     };
     try {
       await userRepo.create(userToBeInserted);
+      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        mapDBExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

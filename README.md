@@ -52,11 +52,16 @@ app.post('/test', function (req, res) {
 app.use(expressExceptionHandler());
 ```
 
-You can add options to allow parsing for database errors this is disabled by default
+You can add options to (enable/disable) parsing for database errors (depends on your ORM) this is disabled by default, [See supported ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
 
 ```javascript
 const options = {
-   mapDBExceptions: true,
+    mapDBExceptions: true,            // deprecated
+    parseSequelizeExceptions: true;
+    parseMongooseExceptions: true;
+    parseTypeORMExceptions: true;
+    parseObjectionJSExceptions: true;
+    parseKnexJSExceptions: false;
 }
 
 app.use(expressExceptionHandler(options));

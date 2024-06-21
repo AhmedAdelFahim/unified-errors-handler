@@ -1,18 +1,20 @@
-import mongoose from 'mongoose';
 import { BaseException } from '../exceptions/base-exception';
 import { MongoDBUniqueViolationException } from './exceptions/no-sql-exceptions/mongodb-unique-violation-exception';
 import { IException } from '../exceptions/interfaces/exception.interface';
 import { MongooseValidationException } from './exceptions/no-sql-exceptions/mongoose-validation-exception';
+import { lazyLoad } from '../utils/helper';
 
 export function isMongoDBError(error: any) {
   return typeof error === 'object' && error?.constructor?.name === 'MongoServerError';
 }
 
 export function isMongooseDBError(error: any) {
+  const mongoose = lazyLoad('mongoose');
   return error instanceof mongoose.MongooseError;
 }
 
 export default function mongoDBExceptionParser(error: any): BaseException | null {
+  const mongoose = lazyLoad('mongoose');
   if (error?.code == 11000) {
     const errorResponse = error?.errorResponse || {};
     const keyValue = errorResponse?.keyValue || {};

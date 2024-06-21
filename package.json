@@ -1,6 +1,6 @@
 {
   "name": "unified-errors-handler",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.",
   "main": "build/index.js",
   "files": [
@@ -12,7 +12,6 @@
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prepare": "npm run build",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
@@ -54,25 +53,25 @@
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "express": "^4.19.2",
     "knex": "^3.1.0",
     "mocha": "^10.4.0",
+    "mongoose": "^8.4.3",
     "mysql2": "^3.10.0",
+    "objection": "^3.1.4",
     "objectionjs-repository": "^1.0.9",
     "pg": "^8.11.5",
     "prettier": "^2.8.3",
     "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.3",
     "supertest": "^7.0.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.4.2"
   },
   "dependencies": {
     "db-errors": "^0.2.3",
-    "express": "^4.19.2",
     "http-status": "^1.7.4",
-    "joi": "^17.13.1",
-    "mongoose": "^8.4.3",
-    "objection": "^3.1.4",
-    "ramda": "^0.30.1",
-    "sequelize": "^6.37.3",
-    "typeorm": "^0.3.20"
+    "ramda": "^0.30.1"
   }
 }
