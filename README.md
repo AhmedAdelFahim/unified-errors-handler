@@ -5,6 +5,19 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 ![GitHub License](https://img.shields.io/github/license/AhmedAdelFahim/unified-errors-handler?style=for-the-badge)
 [![NPM Downloads](https://img.shields.io/npm/dt/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
 [![NPM Downloads](https://img.shields.io/npm/dm/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
+
+## Content
+1. [Installation](https://www.npmjs.com/package/unified-errors-handler#installation)
+2. [Usage](https://www.npmjs.com/package/unified-errors-handler#usage)
+3. [Errors Structure](https://www.npmjs.com/package/unified-errors-handler#unified-structure)
+4. [General Exceptions](https://www.npmjs.com/package/unified-errors-handler#exceptions)
+5. [SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#sql-database-exceptions)
+6. [No SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#no-sql-database-exceptions)
+7. [Custom Exceptions](https://www.npmjs.com/package/unified-errors-handler#custom-exceptions)
+8. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
+9. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
+10. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
+
  ## Installation
 
 ```bash

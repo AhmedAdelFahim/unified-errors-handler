@@ -1,6 +1,6 @@
 {
   "name": "unified-errors-handler",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.",
   "main": "build/index.js",
   "files": [
