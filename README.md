@@ -9,6 +9,10 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 ## Content
 1. [Installation](https://www.npmjs.com/package/unified-errors-handler#installation)
 2. [Usage](https://www.npmjs.com/package/unified-errors-handler#usage)
+    1. [ExpressJS Middleware](https://www.npmjs.com/package/unified-errors-handler#expressjs-middleware)
+    2. [Custom ExpressJS Middleware](https://www.npmjs.com/package/unified-errors-handler#custom-expressjs-middleware)
+    3. [NestJS Exception Filter](https://www.npmjs.com/package/unified-errors-handler#nestjs-exception-filter)
+    4. [Options](https://www.npmjs.com/package/unified-errors-handler#options)
 3. [Errors Structure](https://www.npmjs.com/package/unified-errors-handler#unified-structure)
 4. [General Exceptions](https://www.npmjs.com/package/unified-errors-handler#exceptions)
 5. [SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#sql-database-exceptions)
@@ -24,18 +28,12 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 $ npm i unified-errors-handler
 ```
 ## Usage
-You can use it as middleware
+* #### ExpressJS Middleware
 
 ```javascript
 const express = require('express');
-const bodyParser = require('body-parser');
-const { expressExceptionHandler } = require('expressExceptionHandler');
-
+const { expressExceptionHandler } = require('unified-errors-handler');
 const app = express();
-
-app.use(bodyParser.json({limit:'1kb'}));
-app.use(bodyParser.urlencoded({extended: true, limit:'1kb'}));
-
 /**
   response in case of error will be
   {
@@ -64,7 +62,68 @@ app.post('/test', function (req, res) {
 
 app.use(expressExceptionHandler());
 ```
+* #### Custom ExpressJS Middleware
 
+```javascript
+const express = require('express');
+const { exceptionMapper } = require('unified-errors-handler');
+
+const app = express();
+/**
+  response in case of error will be
+  {
+    errors: [
+      {
+        code: 'USER_NOT_FOUND',
+        message: 'user not found',
+      },
+    ],
+  }
+  with status code 404
+*/
+app.post('/test', function (req, res) {
+    const isFound = // ...
+    if (isFound) {
+      // return response
+    } else {
+      throw new NotFoundException([
+        {
+          code: 'USER_NOT_FOUND',
+          message: 'user not found',
+        },
+      ]);
+    }
+});
+
+app.use((err: Error, req: any, res: any, next: any) => {
+    const mappedError = exceptionMapper(err);
+   
+    res.status(mappedError.statusCode).send({
+      errors: mappedError.serializeErrors(),
+    });
+  });
+```
+
+* #### NestJS Exception Filter
+```javascript
+const { exceptionMapper } = require('unified-errors-handler');
+
+@Catch()
+export class AllExceptionsFilter implements ExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+
+    const error = exceptionMapper(exception);
+    const statusCode = error.statusCode;
+    response.status(statusCode).json({
+      errors: error.serializeErrors(),
+    });
+  }
+}
+```
+
+* #### Options
 You can add options to (enable/disable) parsing for database errors (depends on your ORM) this is disabled by default, [See supported ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
 
 ```javascript
@@ -77,7 +136,9 @@ const options = {
     parseKnexJSExceptions: false;
 }
 
-app.use(expressExceptionHandler(options));
+expressExceptionHandler(options)
+// or 
+const mappedError = exceptionMapper(err, options);
 ```
 
 ## Unified Structure
