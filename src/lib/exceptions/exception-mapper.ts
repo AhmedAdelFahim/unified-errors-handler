@@ -6,6 +6,7 @@ import sequelizeDBExceptionParser, { isSequelizeError } from '../db-exceptions/s
 import objectionDBExceptionParser from '../db-exceptions/objectionjs-parser';
 import typeormDBExceptionParser, { isTypeORMError } from '../db-exceptions/typeorm-parser';
 import mongoDBExceptionParser, { isMongoDBError, isMongooseDBError } from '../db-exceptions/mongodb-parser';
+import log from '../logger/logger';
 
 function dbExceptionMapper(error: unknown, options?: IExceptionMapperOptions): BaseException | null {
   if (options?.parseMongooseExceptions && (isMongoDBError(error) || isMongooseDBError(error))) {
@@ -30,6 +31,7 @@ function dbExceptionMapper(error: unknown, options?: IExceptionMapperOptions): B
 }
 
 export default function exceptionMapper(err: unknown, options?: IExceptionMapperOptions): BaseException {
+  log(err, options?.logging);
   if (options?.mapDBExceptions) {
     throw new Error(
       `mapDBExceptions is deprecated.\n
