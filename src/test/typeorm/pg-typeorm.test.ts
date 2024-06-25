@@ -1,28 +1,36 @@
 import assert from 'assert';
-import { PostgresDatabase } from './helpers/database/postgres-database';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import User from './helpers/modules/postgres/sequelize/users/user.model';
-import Pet from './helpers/modules/postgres/sequelize/pets/pet.model';
+import { PostgresDatabase } from '../helpers/database/postgres-database';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import User from '../helpers/modules/postgres/typeorm/users/user.model';
+import { Repository } from 'typeorm';
+import Pet from '../helpers/modules/postgres/typeorm/pets/pet.model';
 
-describe('Postgres Sequelize Testing', function () {
+describe('Postgres Typeorm Testing', function () {
+  let userRepo: Repository<User>;
+  let petRepo: Repository<Pet>;
+
+  before(async function () {
+    userRepo = (await PostgresDatabase.getTypeormInstance()).getRepository(User);
+    petRepo = (await PostgresDatabase.getTypeormInstance()).getRepository(Pet);
+  });
+
   beforeEach(async function () {
     await PostgresDatabase.seed();
   });
 
   it('Should violate Unique Constraint.', async function () {
-    const userToBeInserted = {
-      name: 'Ahmed',
-      fname: 'Hassan',
-      lname: 'ALi',
-      status: 'Active',
-      age: 28,
-    };
+    const user = new User();
+    user.name = 'Ahmed';
+    user.fname = 'Hassan';
+    user.lname = 'ALi';
+    user.status = 'Active';
+    user.age = 28;
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(user);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.equal(mappedError?.[0]?.fields?.[0], 'name');
       assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
@@ -30,7 +38,7 @@ describe('Postgres Sequelize Testing', function () {
     }
   });
 
-  it('Should violate Unique Constraint  (multi columns).', async function () {
+  it('Should violate Unique Constraint (multi columns).', async function () {
     const userToBeInserted = {
       name: 'Osama',
       fname: 'Ahmed',
@@ -39,11 +47,11 @@ describe('Postgres Sequelize Testing', function () {
       age: 28,
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -63,11 +71,11 @@ describe('Postgres Sequelize Testing', function () {
       status: 'Active',
     };
     try {
-      await User.create(user);
+      await userRepo.save(user);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -88,11 +96,11 @@ describe('Postgres Sequelize Testing', function () {
       type: 'Cow',
     };
     try {
-      await Pet.create(pet);
+      await petRepo.save(pet);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -109,15 +117,13 @@ describe('Postgres Sequelize Testing', function () {
 
   it('Should violate Foreign Constraint (delete row has reference in another table).', async function () {
     try {
-      await User.destroy({
-        where: {
-          name: 'Ahmed',
-        },
+      await userRepo.delete({
+        name: 'Ahmed',
       });
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -142,11 +148,11 @@ describe('Postgres Sequelize Testing', function () {
       age: 23,
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -167,14 +173,14 @@ describe('Postgres Sequelize Testing', function () {
       lname: 'Adel',
       status: 'Active',
       gender: 'FEMALE',
-      age: 999999999999999,
+      age: '9999999999999999999999999999',
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

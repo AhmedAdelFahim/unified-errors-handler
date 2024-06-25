@@ -1,8 +1,8 @@
 import assert from 'assert';
-import { PostgresDatabase } from './helpers/database/postgres-database';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { UserRepository } from './helpers/modules/postgres/knex/users/user.repository';
-import { PetRepository } from './helpers/modules/postgres/knex/pets/pet.repository';
+import { PostgresDatabase } from '../helpers/database/postgres-database';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import { UserRepository } from '../helpers/modules/postgres/knex/users/user.repository';
+import { PetRepository } from '../helpers/modules/postgres/knex/pets/pet.repository';
 
 describe('Postgres ObjectionJS Testing', function () {
   let userRepo: UserRepository;

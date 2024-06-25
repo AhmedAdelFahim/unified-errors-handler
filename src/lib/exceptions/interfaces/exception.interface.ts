@@ -1,3 +1,5 @@
+import { ILoggerOptions } from '../../logger/logger.interface';
+
 export interface IException {
   message: string;
   code?: string;
@@ -12,4 +14,5 @@ export interface IExceptionMapperOptions {
   parseTypeORMExceptions?: boolean;
   parseObjectionJSExceptions?: boolean;
   parseKnexJSExceptions?: boolean;
+  loggerOptions?: ILoggerOptions;
 }

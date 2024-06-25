@@ -1,7 +1,7 @@
 import assert from 'assert';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { MongoDatabase } from './helpers/database/mongo-database';
-import User from './helpers/modules/mongodb/mongoosejs/users/user.model';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import { MongoDatabase } from '../helpers/database/mongo-database';
+import User from '../helpers/modules/mongodb/mongoosejs/users/user.model';
 
 describe('MongoDB Mongoose Testing', function () {
   beforeEach(async function () {

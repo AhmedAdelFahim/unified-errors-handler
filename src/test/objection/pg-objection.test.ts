@@ -1,20 +1,20 @@
 import assert from 'assert';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { MYSQLDatabase } from './helpers/database/mysql-database';
-import { PetRepository } from './helpers/modules/mysql/knex/pets/pet.repository';
-import { UserRepository } from './helpers/modules/mysql/knex/users/user.repository';
+import { PostgresDatabase } from '../helpers/database/postgres-database';
+import { UserRepository } from '../helpers/modules/postgres/objectionjs/users/user.repository';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import { PetRepository } from '../helpers/modules/postgres/objectionjs/pets/pet.repository';
 
-describe('MYSQL Knex Testing', function () {
+describe('Postgres ObjectionJS Testing', function () {
   let userRepo: UserRepository;
   let petRepo: PetRepository;
 
   before(async function () {
-    userRepo = new UserRepository(await MYSQLDatabase.getInstance());
-    petRepo = new PetRepository(await MYSQLDatabase.getInstance());
+    userRepo = new UserRepository(await PostgresDatabase.getInstance());
+    petRepo = new PetRepository(await PostgresDatabase.getInstance());
   });
 
   beforeEach(async function () {
-    await MYSQLDatabase.seed();
+    await PostgresDatabase.seed();
   });
 
   it('Should violate Unique Constraint.', async function () {
@@ -30,14 +30,11 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
-      assert.deepEqual(mappedError, [
-        {
-          code: 'DATA_ALREADY_EXIST',
-          message: 'data already exist',
-        },
-      ]);
+      assert.equal(mappedError?.[0]?.fields?.[0], 'name');
+      assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
+      assert.equal(mappedError?.[0]?.message, 'name already exist');
     }
   });
 
@@ -54,12 +51,13 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
+          fields: ['fname', 'lname'],
           code: 'DATA_ALREADY_EXIST',
-          message: 'data already exist',
+          message: 'fname, lname already exist',
         },
       ]);
     }
@@ -77,7 +75,7 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -102,7 +100,7 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -123,7 +121,7 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -137,25 +135,30 @@ describe('MYSQL Knex Testing', function () {
       ]);
     }
   });
+
   it('Should violate Check Constraint.', async function () {
     const userToBeInserted: any = {
       name: 'Osama',
       fname: 'Ahmed',
       lname: 'Adel',
       status: 'Active',
-      gender: 'fff',
+      gender: 'FEMALEE',
+      age: 43,
     };
     try {
       await userRepo.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
           code: 'INVALID_VALUES',
           message: 'Invalid Values',
+          details: {
+            constraint: 'user_gender_check',
+          },
         },
       ]);
     }
@@ -175,7 +178,7 @@ describe('MYSQL Knex Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseKnexJSExceptions: true,
+        parseObjectionJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

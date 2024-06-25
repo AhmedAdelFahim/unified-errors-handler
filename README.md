@@ -18,9 +18,10 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 5. [SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#sql-database-exceptions)
 6. [No SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#no-sql-database-exceptions)
 7. [Custom Exceptions](https://www.npmjs.com/package/unified-errors-handler#custom-exceptions)
-8. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
-9. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
-10. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
+8. [Logging](https://www.npmjs.com/package/unified-errors-handler#logging)
+9. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
+10. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
+11. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
 
  ## Installation
 
@@ -129,11 +130,11 @@ You can add options to (enable/disable) parsing for database errors (depends on 
 ```javascript
 const options = {
     mapDBExceptions: true,            // deprecated
-    parseSequelizeExceptions: true;
-    parseMongooseExceptions: true;
-    parseTypeORMExceptions: true;
-    parseObjectionJSExceptions: true;
-    parseKnexJSExceptions: false;
+    parseSequelizeExceptions: true,
+    parseMongooseExceptions: true,
+    parseTypeORMExceptions: true,
+    parseObjectionJSExceptions: true,
+    parseKnexJSExceptions: false,
 }
 
 expressExceptionHandler(options)
@@ -360,6 +361,45 @@ export class MyCustomException extends BaseException {
     }];
   }
 }
+```
+
+## Logging
+1. #### ConsoleLogger
+```javascript
+const options = {
+  loggerOptions: {
+    console: {
+      format: ':time :message', // optional - default message only
+      colored: true,    // optional - default no color
+    },
+  },
+}
+
+expressExceptionHandler(options)
+// or 
+const mappedError = exceptionMapper(err, options);
+```
+2. #### CustomLogger
+implement ILogger interface
+```javascript
+import { ILogger } from 'unified-errors-handler';
+
+class CustomLogger implements ILogger {
+  log(error: any): void {
+    console.log(error.message);
+  }
+}
+
+// in options pass this object
+const options = {
+  loggerOptions: {
+    custom: new CustomLogger(),
+  },
+}
+
+expressExceptionHandler(options)
+// or 
+const mappedError = exceptionMapper(err, options);
 ```
 
 ## Supported Database and ORMs
