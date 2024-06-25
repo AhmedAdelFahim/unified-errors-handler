@@ -3,6 +3,7 @@ import express from 'express';
 import request from 'supertest';
 
 import { expressExceptionHandler, NotFoundException } from '../index';
+import customLogger from './helpers/modules/cutom-logger/custom-logger';
 
 describe('Logger', function () {
   describe('Express Middleware Testing with logging', function () {
@@ -20,13 +21,12 @@ describe('Logger', function () {
     });
     app.use(
       expressExceptionHandler({
-        logging: {
-          logger: {
-            type: 'console',
-            options: {
-              format: ':time :message',
-            },
+        loggerOptions: {
+          console: {
+            format: ':time :message',
+            colored: true,
           },
+          custom: customLogger,
         },
       }),
     );

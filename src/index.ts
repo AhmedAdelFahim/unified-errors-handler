@@ -9,6 +9,7 @@ import { ValidationException } from './lib/exceptions/validation-exception';
 import { ServerException } from './lib/exceptions/server-exception';
 import { JoiValidationException } from './lib/common-exceptions/joi-validation-exception';
 import { SQLDatabaseException } from './lib/db-exceptions/exceptions/sql-exceptions/sql-database-exception';
+import ILogger from './lib/logger/logger.interface';
 export {
   expressExceptionHandler,
   exceptionMapper,
@@ -21,4 +22,5 @@ export {
   UnauthorizedException,
   ForbiddenException,
   SQLDatabaseException,
+  ILogger,
 };

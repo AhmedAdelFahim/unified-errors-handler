@@ -31,7 +31,9 @@ function dbExceptionMapper(error: unknown, options?: IExceptionMapperOptions): B
 }
 
 export default function exceptionMapper(err: unknown, options?: IExceptionMapperOptions): BaseException {
-  log(err, options?.logging);
+  if (options?.loggerOptions) {
+    log(err, options?.loggerOptions);
+  }
   if (options?.mapDBExceptions) {
     throw new Error(
       `mapDBExceptions is deprecated.\n

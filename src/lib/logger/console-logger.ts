@@ -1,16 +1,20 @@
-import { LoggingOptions } from '../exceptions/interfaces/exception.interface';
-import LoggingStrategy from './logging-strategy';
+import chalk from 'chalk';
+import loggerFormatter from './logger-formatter';
+import ILogger, { ConsoleLoggerOptions } from './logger.interface';
 
-class ConsoleLogger extends LoggingStrategy {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  log(error: Error, loggingOptions?: LoggingOptions): void {
-    const format = loggingOptions?.logger?.options?.format;
+class ConsoleLogger implements ILogger {
+  log(error: Error, loggingOptions?: ConsoleLoggerOptions): void {
+    const format = loggingOptions?.format;
     let errorStr = error.message;
     if (format) {
-      this.validateFormat(format);
-      errorStr = this.formatError(error, format);
+      loggerFormatter.validateFormat(format);
+      errorStr = loggerFormatter.formatError(error, format);
     }
-    console.error(errorStr);
+    if (loggingOptions?.colored) {
+      console.error(chalk.red(errorStr));
+    } else {
+      console.error(errorStr);
+    }
   }
 }
 

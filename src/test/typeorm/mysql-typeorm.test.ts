@@ -1,10 +1,19 @@
 import assert from 'assert';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import User from './helpers/modules/mysql/sequelize/users/user.model';
-import Pet from './helpers/modules/mysql/sequelize/pets/pet.model';
-import { MYSQLDatabase } from './helpers/database/mysql-database';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import { MYSQLDatabase } from '../helpers/database/mysql-database';
+import { Repository } from 'typeorm';
+import User from '../helpers/modules/mysql/typeorm/users/user.model';
+import Pet from '../helpers/modules/mysql/typeorm/pets/pet.model';
 
-describe('MYSQL Sequelize Testing', function () {
+describe('MYSQL Typeorm Testing', function () {
+  let userRepo: Repository<User>;
+  let petRepo: Repository<Pet>;
+
+  before(async function () {
+    userRepo = (await MYSQLDatabase.getTypeormInstance()).getRepository(User);
+    petRepo = (await MYSQLDatabase.getTypeormInstance()).getRepository(Pet);
+  });
+
   beforeEach(async function () {
     await MYSQLDatabase.seed();
   });
@@ -18,19 +27,22 @@ describe('MYSQL Sequelize Testing', function () {
       age: 28,
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
-      // assert.equal(mappedError?.[0]?.fields?.[0], 'name');
-      assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
-      assert.equal(mappedError?.[0]?.message, 'data already exist');
+      assert.deepEqual(mappedError, [
+        {
+          code: 'DATA_ALREADY_EXIST',
+          message: 'data already exist',
+        },
+      ]);
     }
   });
 
-  it('Should violate Unique Constraint  (multi columns).', async function () {
+  it('Should violate Unique Constraint (multi columns).', async function () {
     const userToBeInserted = {
       name: 'Osama',
       fname: 'Ahmed',
@@ -39,15 +51,14 @@ describe('MYSQL Sequelize Testing', function () {
       age: 28,
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
-          // fields: ['fname', 'lname'],
           code: 'DATA_ALREADY_EXIST',
           message: 'data already exist',
         },
@@ -63,11 +74,11 @@ describe('MYSQL Sequelize Testing', function () {
       status: 'Active',
     };
     try {
-      await User.create(user);
+      await userRepo.save(user);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -88,11 +99,11 @@ describe('MYSQL Sequelize Testing', function () {
       type: 'Cow',
     };
     try {
-      await Pet.create(pet);
+      await petRepo.save(pet);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -109,15 +120,11 @@ describe('MYSQL Sequelize Testing', function () {
 
   it('Should violate Foreign Constraint (delete row has reference in another table).', async function () {
     try {
-      await User.destroy({
-        where: {
-          name: 'Ahmed',
-        },
-      });
+      await userRepo.delete({ name: 'Ahmed' });
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -131,7 +138,6 @@ describe('MYSQL Sequelize Testing', function () {
       ]);
     }
   });
-
   it('Should violate Check Constraint.', async function () {
     const userToBeInserted: any = {
       name: 'Osama',
@@ -141,11 +147,11 @@ describe('MYSQL Sequelize Testing', function () {
       gender: 'fff',
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -166,11 +172,11 @@ describe('MYSQL Sequelize Testing', function () {
       age: 999999999999999,
     };
     try {
-      await User.create(userToBeInserted);
+      await userRepo.save(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseSequelizeExceptions: true,
+        parseTypeORMExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {

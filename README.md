@@ -129,11 +129,11 @@ You can add options to (enable/disable) parsing for database errors (depends on 
 ```javascript
 const options = {
     mapDBExceptions: true,            // deprecated
-    parseSequelizeExceptions: true;
-    parseMongooseExceptions: true;
-    parseTypeORMExceptions: true;
-    parseObjectionJSExceptions: true;
-    parseKnexJSExceptions: false;
+    parseSequelizeExceptions: true,
+    parseMongooseExceptions: true,
+    parseTypeORMExceptions: true,
+    parseObjectionJSExceptions: true,
+    parseKnexJSExceptions: false,
 }
 
 expressExceptionHandler(options)
@@ -360,6 +360,45 @@ export class MyCustomException extends BaseException {
     }];
   }
 }
+```
+
+## Logging
+1. #### ConsoleLogger
+```javascript
+const options = {
+  loggerOptions: {
+    console: {
+      format: ':time :message', // optional - default message only
+      colored: true,    // optional - default no color
+    },
+  },
+}
+
+expressExceptionHandler(options)
+// or 
+const mappedError = exceptionMapper(err, options);
+```
+2. #### CustomLogger
+implement ILogger interface
+```javascript
+import { ILogger } from 'unified-errors-handler';
+
+class CustomLogger implements ILogger {
+  log(error: any): void {
+    console.log(error.message);
+  }
+}
+
+// in options pass this object
+const options = {
+  loggerOptions: {
+    custom: new CustomLogger(),
+  },
+}
+
+expressExceptionHandler(options)
+// or 
+const mappedError = exceptionMapper(err, options);
 ```
 
 ## Supported Database and ORMs

@@ -1,12 +1,10 @@
-import { LoggingOptions } from '../exceptions/interfaces/exception.interface';
+import moment from 'moment';
 
-export default abstract class LoggingStrategy {
+class LoggerFormatter {
   protected formatRegex = {
-    time: /^:time(\{\{\.\}\})?$/,
+    time: /^:time(\{\{.+\}\})?$/,
     message: /^:message$/,
   };
-  abstract log(error: any, loggingOptions?: LoggingOptions): void;
-
   validateFormat(format: string) {
     const parts = format.split(' ');
 
@@ -30,13 +28,12 @@ export default abstract class LoggingStrategy {
     const parts = format.split(' ');
     const formattedError = parts.map((part) => {
       if (this.formatRegex.time.test(part)) {
-        let defaultTimeFormat = 'YYYY-MM-DDTHH:mm:ss.sss';
+        let defaultTimeFormat = 'YYYY-MM-DDTHH:mm:ss.sss Z';
         const customTimeFormat = part.replace(':time', '').replace(/\{\{/, '').replace(/\}\}/, '');
         if (customTimeFormat.length > 0) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           defaultTimeFormat = customTimeFormat;
         }
-        const now = new Date().toUTCString();
+        const now = moment().utc().format(defaultTimeFormat);
         return now;
       } else if (this.formatRegex.message.test(part)) {
         return message;
@@ -45,3 +42,5 @@ export default abstract class LoggingStrategy {
     return formattedError.join(' - ');
   }
 }
+
+export default new LoggerFormatter();

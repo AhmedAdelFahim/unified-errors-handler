@@ -1,17 +1,16 @@
 import assert from 'assert';
-import exceptionMapper from '../lib/exceptions/exception-mapper';
-import { MYSQLDatabase } from './helpers/database/mysql-database';
-import { Repository } from 'typeorm';
-import User from './helpers/modules/mysql/typeorm/users/user.model';
-import Pet from './helpers/modules/mysql/typeorm/pets/pet.model';
+import exceptionMapper from '../../lib/exceptions/exception-mapper';
+import { MYSQLDatabase } from '../helpers/database/mysql-database';
+import { PetRepository } from '../helpers/modules/mysql/knex/pets/pet.repository';
+import { UserRepository } from '../helpers/modules/mysql/knex/users/user.repository';
 
-describe('MYSQL Typeorm Testing', function () {
-  let userRepo: Repository<User>;
-  let petRepo: Repository<Pet>;
+describe('MYSQL Knex Testing', function () {
+  let userRepo: UserRepository;
+  let petRepo: PetRepository;
 
   before(async function () {
-    userRepo = (await MYSQLDatabase.getTypeormInstance()).getRepository(User);
-    petRepo = (await MYSQLDatabase.getTypeormInstance()).getRepository(Pet);
+    userRepo = new UserRepository(await MYSQLDatabase.getInstance());
+    petRepo = new PetRepository(await MYSQLDatabase.getInstance());
   });
 
   beforeEach(async function () {
@@ -27,11 +26,11 @@ describe('MYSQL Typeorm Testing', function () {
       age: 28,
     };
     try {
-      await userRepo.save(userToBeInserted);
+      await userRepo.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -51,11 +50,11 @@ describe('MYSQL Typeorm Testing', function () {
       age: 28,
     };
     try {
-      await userRepo.save(userToBeInserted);
+      await userRepo.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -74,11 +73,11 @@ describe('MYSQL Typeorm Testing', function () {
       status: 'Active',
     };
     try {
-      await userRepo.save(user);
+      await userRepo.create(user);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -99,11 +98,11 @@ describe('MYSQL Typeorm Testing', function () {
       type: 'Cow',
     };
     try {
-      await petRepo.save(pet);
+      await petRepo.create(pet);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -124,7 +123,7 @@ describe('MYSQL Typeorm Testing', function () {
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -147,11 +146,11 @@ describe('MYSQL Typeorm Testing', function () {
       gender: 'fff',
     };
     try {
-      await userRepo.save(userToBeInserted);
+      await userRepo.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
@@ -172,11 +171,11 @@ describe('MYSQL Typeorm Testing', function () {
       age: 999999999999999,
     };
     try {
-      await userRepo.save(userToBeInserted);
+      await userRepo.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
-        parseTypeORMExceptions: true,
+        parseKnexJSExceptions: true,
       }).serializeErrors();
       assert.deepEqual(mappedError, [
         {
