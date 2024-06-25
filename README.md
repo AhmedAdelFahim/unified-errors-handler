@@ -18,9 +18,10 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 5. [SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#sql-database-exceptions)
 6. [No SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#no-sql-database-exceptions)
 7. [Custom Exceptions](https://www.npmjs.com/package/unified-errors-handler#custom-exceptions)
-8. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
-9. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
-10. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
+8. [Logging](https://www.npmjs.com/package/unified-errors-handler#logging)
+9. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
+10. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
+11. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
 
  ## Installation
 
