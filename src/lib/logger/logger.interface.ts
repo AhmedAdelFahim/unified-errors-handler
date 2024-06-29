@@ -4,13 +4,21 @@ export type ConsoleLoggerOptions = {
   // color?: 'red' | 'green' | 'blue';
 };
 
+export type FileLoggerOptions = {
+  format?: string;
+  fileName?: string;
+  maxFileSize?: string;
+  path?: string;
+};
+
 export interface ILoggerOptions {
   console?: ConsoleLoggerOptions;
-  custom?: ILogger;
+  file?: FileLoggerOptions;
+  custom?: ILogger | ((error: any) => void);
 }
 
-export type LoggerTypes = 'console' | 'custom';
+export type LoggerTypes = 'console' | 'custom' | 'file';
 
 export default interface ILogger {
-  log(error: any, loggingOptions?: ConsoleLoggerOptions): void;
+  log(error: any, loggingOptions?: ConsoleLoggerOptions | FileLoggerOptions): void;
 }

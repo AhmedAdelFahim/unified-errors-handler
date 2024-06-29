@@ -23,10 +23,12 @@ describe('Logger', function () {
       expressExceptionHandler({
         loggerOptions: {
           console: {
-            format: ':time :message',
+            format: ':time :stack',
             colored: true,
           },
-          custom: customLogger,
+          custom: (err) => {
+            console.log(err);
+          },
         },
       }),
     );
