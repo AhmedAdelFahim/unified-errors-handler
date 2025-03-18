@@ -12,13 +12,13 @@ export function createDirIfNotExist(dir: string) {
   }
 }
 
-export function fileSize(path: string, unit?: 'KB' | 'MB' | 'GB') {
+export function getFileSize(path: string, unit?: 'KB' | 'MB' | 'GB') {
   const info = fs.statSync(path);
   if (!isNil(unit)) {
     if (unit === 'MB') {
-      return info.size / 1000;
+      return info.size / 1024;
     } else if (unit === 'GB') {
-      return info.size / 1000000;
+      return info.size / (1024 * 1024);
     } else {
       info.size;
     }

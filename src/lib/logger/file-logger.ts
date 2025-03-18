@@ -21,9 +21,37 @@ class FileLogger implements ILogger {
     }
   }
 
+  private parseMaxFileSize(maxFileSize: string) {
+    if (/[0-9]+(KB)/.test(maxFileSize)) {
+      return {
+        size: maxFileSize.replace('KB', ''),
+        unit: 'KB',
+      };
+    }
+
+    if (/[0-9]+(MB)/.test(maxFileSize)) {
+      return {
+        size: maxFileSize.replace('MB', ''),
+        unit: 'MB',
+      };
+    }
+
+    if (/[0-9]+(GB)/.test(maxFileSize)) {
+      return {
+        size: maxFileSize.replace('GB', ''),
+        unit: 'GB',
+      };
+    }
+  }
+
+  private checkLoggingFileSize(fileName: string, loggingPath: string, parsedMaxSize) {
+
+  }
+
   log(error: Error, loggingOptions?: FileLoggerOptions): void {
     const format: any = loggingOptions?.format;
     const maxFileSize: any = loggingOptions?.maxFileSize;
+    let parsedMaxSize;
     const userPath: any = loggingOptions?.path;
     const filename = this.getFileName(loggingOptions?.fileName || this.defaultFileName);
     const projectRootPath = getProjectRootPath();
@@ -32,7 +60,10 @@ class FileLogger implements ILogger {
     let errorStr = error.message;
     if (!isNil(maxFileSize)) {
       this.validateFileSize(maxFileSize);
+      parsedMaxSize = this.parseMaxFileSize(maxFileSize);
     }
+
+
     if (!isNil(format)) {
       loggerFormatter.validateFormat(format);
       errorStr = loggerFormatter.formatError(error, format);
@@ -43,6 +74,7 @@ class FileLogger implements ILogger {
     }
     createDirIfNotExist(loggingPath);
     loggingPath = path.join(loggingPath, filename);
+    
     fs.appendFileSync(loggingPath, errorStr);
   }
 }
