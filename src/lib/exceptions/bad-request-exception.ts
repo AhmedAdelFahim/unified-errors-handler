@@ -5,7 +5,7 @@ import { IException } from './interfaces/exception.interface';
 export class BadRequestException extends BaseException {
   statusCode = httpStatus.BAD_REQUEST;
 
-  constructor(public error: IException) {
+  constructor(public error: IException = { message: 'Bad request' }) {
     super(error.message);
     Object.setPrototypeOf(this, BadRequestException.prototype);
   }

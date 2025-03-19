@@ -1,14 +1,16 @@
 # Unified Errors Handler
-Unified Errors Handler is A Powerful Error Handling Library for Node.js that unify error structure across application. it can unify database errors.
+Unified Errors Handler is an advanced error-handling library for Node.js. It standardizes error structures across Express.js, NestJS, and databases like MySQL, PostgreSQL, and MongoDB. It simplifies debugging, improves consistency, and enhances error logging.
 
 [![Latest Stable Version](https://img.shields.io/npm/v/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
 ![GitHub License](https://img.shields.io/github/license/AhmedAdelFahim/unified-errors-handler?style=for-the-badge)
 [![NPM Downloads](https://img.shields.io/npm/dt/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
 [![NPM Downloads](https://img.shields.io/npm/dm/unified-errors-handler.svg?style=for-the-badge)](https://www.npmjs.com/package/unified-errors-handler)
 
+<p style="text-align: center;"><i>Unified Errors Handler simplifies error handling in Node.js, Express, and NestJS. Supports Sequelize, TypeORM, Objection.js, Mongoose, and Knex.js.</i></p>
+
 ## Content
 1. [Installation](https://www.npmjs.com/package/unified-errors-handler#installation)
-2. [Usage](https://www.npmjs.com/package/unified-errors-handler#usage)
+2. [How to Use Unified Errors Handler in Node.js](https://www.npmjs.com/package/unified-errors-handler#usage)
     1. [ExpressJS Middleware](https://www.npmjs.com/package/unified-errors-handler#expressjs-middleware)
     2. [Custom ExpressJS Middleware](https://www.npmjs.com/package/unified-errors-handler#custom-expressjs-middleware)
     3. [NestJS Exception Filter](https://www.npmjs.com/package/unified-errors-handler#nestjs-exception-filter)
@@ -19,16 +21,16 @@ Unified Errors Handler is A Powerful Error Handling Library for Node.js that uni
 6. [No SQL Database Exceptions](https://www.npmjs.com/package/unified-errors-handler#no-sql-database-exceptions)
 7. [Custom Exceptions](https://www.npmjs.com/package/unified-errors-handler#custom-exceptions)
 8. [Logging](https://www.npmjs.com/package/unified-errors-handler#logging)
-9. [Supported Database and ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
+9. [See supported ORMs](https://www.npmjs.com/package/unified-errors-handler#see-supported-orms)
 10. [Tests](https://www.npmjs.com/package/unified-errors-handler#tests)
 11. [Support and Suggestions](https://www.npmjs.com/package/unified-errors-handler#support-and-suggestions)
 
  ## Installation
 
 ```bash
-$ npm i unified-errors-handler
+$ npm install unified-errors-handler
 ```
-## Usage
+## How to Use Unified Errors Handler in Node.js
 * #### ExpressJS Middleware
 
 ```javascript
@@ -125,7 +127,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 ```
 
 * #### Options
-You can add options to (enable/disable) parsing for database errors (depends on your ORM) this is disabled by default, [See supported ORMs](https://www.npmjs.com/package/unified-errors-handler#supported-database-and-orms)
+You can add options to (enable/disable) parsing for database errors (depends on your ORM) this is disabled by default, [See supported ORMs](https://www.npmjs.com/package/unified-errors-handler#see-supported-orms)
 
 ```javascript
 const options = {
@@ -344,7 +346,7 @@ throw new ServerException();
 ```
 
 ## Custom Exceptions
-You can create your own exceptions by extend `BaseException`
+You can create your own exceptions by extending `BaseException`.
 ```javascript
 export class MyCustomException extends BaseException {
   statusCode = 400;
