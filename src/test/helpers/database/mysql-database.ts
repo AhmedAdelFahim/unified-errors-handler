@@ -60,8 +60,11 @@ export class MYSQLDatabase {
   }
 
   static async initSchema() {
+    console.log('Creating tables');
     await (await this.getInstance())?.schema.dropTableIfExists(TABLES.PET);
+    console.log('Dropped table PET');
     await (await this.getInstance())?.schema.dropTableIfExists(TABLES.USER);
+    console.log('Dropped table USER');
     await (
       await this.getInstance()
     )?.schema.createTable(TABLES.USER, (table: any) => {
@@ -78,7 +81,7 @@ export class MYSQLDatabase {
         indexName: 'fname_lname_unique_index',
       });
     });
-
+    console.log('Created table USER');
     await (
       await this.getInstance()
     )?.schema.createTable(TABLES.PET, (table: any) => {
@@ -94,15 +97,20 @@ export class MYSQLDatabase {
         .onDelete('RESTRICT')
         .onUpdate('CASCADE');
     });
+    console.log('Created table PET');
   }
 
   static async seed() {
     await (await this.getInstance())?.table(TABLES.PET)?.truncate();
+    console.log('Truncated table PET');
     await (await this.getInstance())?.raw(`SET FOREIGN_KEY_CHECKS = 0; `);
+    console.log('Disabled foreign key checks');
     await (await this.getInstance())?.raw(`TRUNCATE TABLE ${TABLES.USER};`);
+    console.log('Truncated table USER');
     await (await this.getInstance())?.raw(`SET FOREIGN_KEY_CHECKS = 1;`);
-
+    console.log('Enabled foreign key checks');
     const userList = await (await this.getInstance())?.table(TABLES.USER)?.insert(users);
+    console.log('Seeded table USER');
     await (await this.getInstance())?.table(TABLES.PET)?.insert(
       pets.map((pet) => {
         const clonedPet = JSON.parse(JSON.stringify(pet));
@@ -110,6 +118,7 @@ export class MYSQLDatabase {
         return clonedPet;
       }),
     );
+    console.log('Seeded table PET');
   }
 
   static async init() {

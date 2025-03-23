@@ -15,9 +15,7 @@ function dbExceptionMapper(error: unknown, options?: IExceptionMapperOptions): B
     return sequelizeDBExceptionParser(error);
   } else if (options?.parseTypeORMExceptions && isTypeORMError(error)) {
     return typeormDBExceptionParser(error);
-  } else if (options?.parseObjectionJSExceptions && error instanceof DBError) {
-    return objectionDBExceptionParser(error);
-  } else if (options?.parseKnexJSExceptions) {
+  } else if ((options?.parseObjectionJSExceptions && error instanceof DBError) || options?.parseKnexJSExceptions) {
     return objectionDBExceptionParser(error);
   } else if (
     options?.parseSequelizeExceptions ||

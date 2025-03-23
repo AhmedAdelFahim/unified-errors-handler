@@ -21,9 +21,11 @@ describe('MYSQL Sequelize Testing', function () {
       await User.create(userToBeInserted);
       throw new Error('Database error must be fired.');
     } catch (e) {
+      console.log(e);
       const mappedError = exceptionMapper(e, {
         parseSequelizeExceptions: true,
       }).serializeErrors();
+      console.log(mappedError);
       // assert.equal(mappedError?.[0]?.fields?.[0], 'name');
       assert.equal(mappedError?.[0]?.code, 'DATA_ALREADY_EXIST');
       assert.equal(mappedError?.[0]?.message, 'data already exist');

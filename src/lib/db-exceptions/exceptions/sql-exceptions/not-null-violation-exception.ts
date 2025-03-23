@@ -1,14 +1,14 @@
-import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
+import constants from '../../../utils/constants';
 
 export class NotNullViolationException extends SQLDatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(private column: string) {
     super([
       {
         fields: [column],
-        code: 'INVALID_DATA',
+        code: constants.ERROR_CODES.INVALID_DATA,
         message: `${column} is invalid`,
         details: {
           reason: `${column} must not be NULL`,

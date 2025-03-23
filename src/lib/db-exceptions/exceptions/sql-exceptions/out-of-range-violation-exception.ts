@@ -1,12 +1,12 @@
-import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
+import constants from '../../../utils/constants';
 
 export class OutOfRangeViolationException extends SQLDatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor() {
     const errorObj: any = {
-      code: 'OUT_OF_RANGE',
+      code: constants.ERROR_CODES.OUT_OF_RANGE,
       message: `Out of range`,
     };
 

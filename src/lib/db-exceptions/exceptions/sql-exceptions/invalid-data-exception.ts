@@ -1,13 +1,13 @@
-import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
+import constants from '../../../utils/constants';
 
 export class InvalidDataException extends SQLDatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(private err?: any) {
     super([
       err || {
-        code: 'INVALID_VALUES',
+        code: constants.ERROR_CODES.INVALID_VALUES,
         message: `Invalid Values`,
       },
     ]);

@@ -1,5 +1,5 @@
-import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
+import constants from '../../../utils/constants';
 
 function isReferenceError(nativeError: any) {
   const stillReferencedInAnotherTableReg = new RegExp(/Key \(.+\)=\(.+\) is still referenced from table ".+"\./);
@@ -15,7 +15,7 @@ function extractDetails(constraint: string, nativeError: any) {
   if (isHasNoReferenceError(nativeError)) {
     return [
       {
-        code: 'INVALID_DATA',
+        code: constants.ERROR_CODES.INVALID_DATA,
         message: `Invalid data`,
         details: {
           reason: 'violates foreign key constraint',
@@ -26,7 +26,7 @@ function extractDetails(constraint: string, nativeError: any) {
   } else if (isReferenceError(nativeError)) {
     return [
       {
-        code: 'DATA_HAS_REFERENCE',
+        code: constants.ERROR_CODES.DATA_HAS_REFERENCE,
         message: `Data has reference`,
         details: {
           reason: 'violates foreign key constraint',
@@ -37,7 +37,7 @@ function extractDetails(constraint: string, nativeError: any) {
   } else {
     return [
       {
-        code: 'INVALID_DATA',
+        code: constants.ERROR_CODES.INVALID_DATA,
         message: `Invalid data`,
         details: {
           reason: 'violates foreign key constraint',
@@ -49,7 +49,7 @@ function extractDetails(constraint: string, nativeError: any) {
 }
 
 export class ForeignKeyViolationException extends SQLDatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(private constraint: string, private nativeError?: any) {
     super(extractDetails(constraint, nativeError));

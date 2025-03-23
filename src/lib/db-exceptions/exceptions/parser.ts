@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import constants from '../../utils/constants';
 import { InvalidDataException } from './sql-exceptions/invalid-data-exception';
 import { OutOfRangeViolationException } from './sql-exceptions/out-of-range-violation-exception';
 
 const supportedErrors = {
   WARN_DATA_TRUNCATED: (error: any) => {
     return new InvalidDataException({
-      code: 'INVALID_VALUES',
+      code: constants.ERROR_CODES.INVALID_VALUES,
       message: `Invalid Values`,
     });
   },

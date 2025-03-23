@@ -1,12 +1,12 @@
-import httpStatus from 'http-status';
 import { SQLDatabaseException } from './sql-database-exception';
+import constants from '../../../utils/constants';
 
 export class CheckViolationException extends SQLDatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(private constraint: string) {
     const errorObj: any = {
-      code: 'INVALID_VALUES',
+      code: constants.ERROR_CODES.INVALID_VALUES,
       message: `Invalid Values`,
       details: {
         constraint,

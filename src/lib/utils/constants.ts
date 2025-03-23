@@ -1,0 +1,28 @@
+class Constant {
+  private _ERROR_CODES = {
+    DATA_ALREADY_EXIST: 'DATA_ALREADY_EXIST',
+    INVALID_VALUES: 'INVALID_VALUES',
+    INVALID_DATA: 'INVALID_DATA',
+    OUT_OF_RANGE: 'OUT_OF_RANGE',
+    DATA_HAS_REFERENCE: 'DATA_HAS_REFERENCE',
+  };
+
+  private _HTTP_STATUS_CODES = {
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    CONFLICT: 409,
+    INTERNAL_SERVER_ERROR: 500,
+  };
+
+  get HTTP_STATUS_CODES() {
+    return this._HTTP_STATUS_CODES;
+  }
+
+  get ERROR_CODES() {
+    return this._ERROR_CODES;
+  }
+}
+
+export default new Constant();

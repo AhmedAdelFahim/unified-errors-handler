@@ -1,9 +1,9 @@
-import httpStatus from 'http-status';
 import { IException } from '../../../exceptions/interfaces/exception.interface';
 import { DatabaseException } from '../database-exception';
+import constants from '../../../utils/constants';
 
 export class NoSQLDatabaseException extends DatabaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(protected error: IException[]) {
     super();

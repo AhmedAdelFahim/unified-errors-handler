@@ -6,12 +6,15 @@ import { MongoDatabase } from './database/mongo-database';
 before(function (done) {
   PostgresDatabase.init()
     .then(() => {
+      console.log('Postgres database initialized');
       return MYSQLDatabase.init();
     })
     .then(() => {
+      console.log('MYSQL database initialized');
       return MongoDatabase.init();
     })
     .then(() => {
+      console.log('Mongo database initialized');
       done();
     })
     .catch((err: any) => {

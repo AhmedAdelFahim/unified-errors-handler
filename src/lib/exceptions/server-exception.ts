@@ -1,8 +1,8 @@
-import httpStatus from 'http-status';
+import constants from '../utils/constants';
 import { BaseException } from './base-exception';
 
 export class ServerException extends BaseException {
-  statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  statusCode = constants.HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR;
 
   constructor() {
     super('Internal Server Error');

@@ -1,9 +1,9 @@
-import httpStatus from 'http-status';
 import { BaseException } from './base-exception';
 import { IException } from './interfaces/exception.interface';
+import constants from '../utils/constants';
 
 export class BadRequestException extends BaseException {
-  statusCode = httpStatus.BAD_REQUEST;
+  statusCode = constants.HTTP_STATUS_CODES.BAD_REQUEST;
 
   constructor(public error: IException = { message: 'Bad request' }) {
     super(error.message);
