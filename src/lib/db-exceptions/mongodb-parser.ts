@@ -4,11 +4,11 @@ import { IException } from '../exceptions/interfaces/exception.interface';
 import { MongooseValidationException } from './exceptions/no-sql-exceptions/mongoose-validation-exception';
 import { lazyLoad } from '../utils/helper';
 
-export function isMongoDBError(error: any) {
+export function isMongoDBError(error: unknown) {
   return typeof error === 'object' && error?.constructor?.name === 'MongoServerError';
 }
 
-export function isMongooseDBError(error: any) {
+export function isMongooseDBError(error: unknown) {
   const mongoose = lazyLoad('mongoose');
   return error instanceof mongoose.MongooseError;
 }

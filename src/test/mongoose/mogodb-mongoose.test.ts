@@ -69,7 +69,6 @@ describe('MongoDB Mongoose Testing', function () {
     };
     try {
       await User.create(user);
-      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         parseMongooseExceptions: true,

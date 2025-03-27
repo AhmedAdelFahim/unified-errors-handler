@@ -5,8 +5,8 @@ import constants from '../utils/constants';
 export class UnauthorizedException extends BaseException {
   statusCode = constants.HTTP_STATUS_CODES.UNAUTHORIZED;
 
-  constructor(public error: IException) {
-    super('Unauthorized');
+  constructor(public error: IException = { message: 'Unauthorized', code: constants.ERROR_CODES.UNAUTHORIZED }) {
+    super(error.message);
 
     Object.setPrototypeOf(this, UnauthorizedException.prototype);
   }

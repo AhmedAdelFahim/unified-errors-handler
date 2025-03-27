@@ -4,18 +4,18 @@ import { InvalidDataException } from './sql-exceptions/invalid-data-exception';
 import { OutOfRangeViolationException } from './sql-exceptions/out-of-range-violation-exception';
 
 const supportedErrors = {
-  WARN_DATA_TRUNCATED: (error: any) => {
+  WARN_DATA_TRUNCATED: (error: unknown) => {
     return new InvalidDataException({
       code: constants.ERROR_CODES.INVALID_VALUES,
       message: `Invalid Values`,
     });
   },
-  ER_WARN_DATA_OUT_OF_RANGE: (error: any) => {
+  ER_WARN_DATA_OUT_OF_RANGE: (error: unknown) => {
     return new OutOfRangeViolationException();
   },
   // postgres errors
   // out of range error
-  22003: (error: any) => {
+  22003: (error: unknown) => {
     return new OutOfRangeViolationException();
   },
 };

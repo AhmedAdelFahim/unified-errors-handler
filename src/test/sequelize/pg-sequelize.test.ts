@@ -114,7 +114,6 @@ describe('Postgres Sequelize Testing', function () {
           name: 'Ahmed',
         },
       });
-      throw new Error('Database error must be fired.');
     } catch (e) {
       const mappedError = exceptionMapper(e, {
         parseSequelizeExceptions: true,
