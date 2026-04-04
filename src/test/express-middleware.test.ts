@@ -19,7 +19,6 @@ describe('Express Middleware Testing', function () {
     const app = express();
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     app.post('/throw-not-found-error', function (req, res) {
       throw new NotFoundException();
     });
